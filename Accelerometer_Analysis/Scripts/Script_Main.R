@@ -1,0 +1,88 @@
+# Main Script for Sensitivity Analysis Data Exploration --------------------------
+# Written by Oakleigh Wilson, Nov 2024
+
+# Main Script for Sensitivity Analysis ------------------------------------
+
+
+# Install packages  -------------------------------------------------------
+library(data.table)
+library(tidyverse)
+library(tsfeatures)
+library(umap)
+library(caret)
+library(ggpubr) # for retrieving the legend in one of my plots
+
+# Hardcoded variables -----------------------------------------------------
+
+# Input the dataset name from the list of dictionaries in Species Settings
+dataset_name <- "Studd_Squirrel"
+
+# Set the base path to our directory we are working from.
+base_path <- "C:/Users/user/Desktop/Oakleigh_Project/Accelerometer_Analysis"
+
+# Here we created a dictionary that thats a list of variables for each species: sample rate and overlap
+species_settings <- list(Studd_Squirrel = list(sample_rate = 1, overlap_percent = 20, window_length = 10),
+                         Seal = list(sample_rate = 100, overlap_percent = 20, window_length = 10))
+
+# Here we are going to set the sample rate based on the name from the dictionary and pull the values of that.
+sample_rate <- species_settings[[dataset_name]]$sample_rate
+# Doing the same for overlap variable within our dictionary.
+overlap_percent <- species_settings[[dataset_name]]$overlap_percent
+# Same for window length
+window_length <- species_settings[[dataset_name]]$window_length
+# Assign available axes
+available_axes <- c("Accelerometer.X", "Accelerometer.Y", "Accelerometer.Z")
+
+
+# Create Directories ------------------------------------------------------
+
+ # In a separate script titled ModifyData we have edited the data and rewritten it.
+
+# Split test data out and load other data ---------------------------------
+source(file.path(base_path, "Scripts", "SplitTestData.R"))
+
+
+# Generate features for training data -------------------------------------
+# currently set to only process a very small number of windows
+source(file.path(base_path, "Scripts", "GeneratingFeatures.R"))
+
+# Call for the Rmd to generate into an html file: 
+  
+  # Create a check that sees if the file has already been created, or created recently.
+  # For now its not checking anything. Change later.
+  if (1 == 1) {
+    # Try and render the file, if you can't instead print an erro (line ~89)
+    tryCatch(
+      {
+      # Define the output directory and file
+      output_dir <- file.path(base_path, "Plots")
+      # Define what we will be calling
+      output_file <- paste0(dataset_name, "_exploration.html")
+      
+      # Knit the GenerateReport.Rmd file as an HTML report
+      rmarkdown::render(
+        # Input file that we are going to render
+        input = file.path(base_path, "Scripts", "GenerateReport.Rmd"),
+        # Output as a html document.
+        output_format = "html_document",
+        # Define the output file based on the previous output file variable
+        output_file = output_file,  # File name only
+        output_dir = output_dir,   # Directory for saving the file
+        params = list(
+          base_path = base_path,
+          dataset_name = dataset_name,
+          sample_rate = sample_rate
+        )
+      )
+      
+      # Success message with full path
+      message("Exploration report saved to: ", file.path(output_dir, output_file))
+    }, error = function(e) {
+      message("Error in making the data exploration report: ", e$message)
+      stop()
+    })
+  }
+
+# End of File
+
+
