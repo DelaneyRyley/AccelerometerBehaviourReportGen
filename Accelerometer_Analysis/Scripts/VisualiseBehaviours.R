@@ -93,58 +93,59 @@ plotActivityByID <- function(data, frequency, colours) {
 }
 
 
+
 # Plot the behaviour duration (i.e. sleep for 6 hours). Uses modified data
-plotBehaviourDuration <- function(data, sample_rate){
-  
-  summary <- data %>%
-    arrange(ID) %>%             # Sort by ID (not time because multiple trials in dog data)
-    group_by(ID) %>%      
-    mutate(
-      behavior_change = lag(Activity) != Activity,  # Detect changes in Activity
-      behavior_change = ifelse(is.na(behavior_change), TRUE, behavior_change)  # Handle the first row
-    ) %>%
-    mutate(
-      behavior_id = cumsum(behavior_change)  # Create an identifier for each continuous behavior segment
-    ) %>%
-    group_by(ID, behavior_id) %>%            # Group by ID and behavior_id
-    mutate(
-      row_count = row_number()                # Count rows within each behavior segment
-    ) %>%
-    ungroup() %>%
-    select(ID, Time, Activity, row_count, behavior_id) %>%   # Select relevant columns
-    group_by(ID, Activity, behavior_id) %>%
-    summarise(duration_sec = max(row_count)/100)
-  
-  duration_stats <- summary %>%
-    group_by(Activity) %>%
-    summarise(
-      median = median(duration_sec, na.rm = TRUE),
-      maximum = max(duration_sec, na.rm = TRUE),
-      minimum = min(duration_sec, na.rm = TRUE)
-    )
-  
-  # plot that
-  duration_plot <- ggplot(summary, aes(x = Activity, y = as.numeric(duration_sec))) +
-    geom_boxplot(aes(color = Activity)) +  # Use color to distinguish activities
-    theme_minimal() +
-    theme(
-      legend.position = "none",             # Remove legend
-      axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),  # Rotate x-axis labels 90 degrees
-      panel.grid = element_blank(),         # Remove grid lines
-      panel.border = element_rect(color = "black", fill = NA)  # Add black border around the plot
-    ) +
-    labs(
-      x = "Activity",
-      y = "Duration (seconds)"
-    ) +
-    scale_y_continuous(
-      limits = c(min(summary$duration_sec, na.rm = TRUE), max(summary$duration_sec, na.rm = TRUE)),  # Set y-axis limits
-      breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 160)  # Adjust the step size as needed
-    )
-  
-  return(list(duration_plot = duration_plot,
-              duration_stats = duration_stats))
-}
+  plotBehaviourDuration <- function(data, sample_rate)
+    {
+    summary <- data %>%
+      arrange(ID) %>%            # Sort by ID (not time because multiple trials in dog data)
+      group_by(ID) %>%      
+      mutate(
+        behavior_change = lag(Activity) != Activity,  # Detect changes in Activity
+        behavior_change = ifelse(is.na(behavior_change), TRUE, behavior_change)  # Handle the first row
+      ) %>%
+      mutate(
+        behavior_id = cumsum(behavior_change)  # Create an identifier for each continuous behavior segment
+      ) %>%
+      group_by(ID, behavior_id) %>%            # Group by ID and behavior_id
+      mutate(
+        row_count = row_number()                # Count rows within each behavior segment
+      ) %>%
+      ungroup() %>%
+      select(ID, Time, Activity, row_count, behavior_id) %>%   # Select relevant columns
+      group_by(ID, Activity, behavior_id) %>%
+      summarise(duration_sec = max(row_count)/100)
+    
+    duration_stats <- summary %>%
+      group_by(Activity) %>%
+      summarise(
+        median = median(duration_sec, na.rm = TRUE),
+        maximum = max(duration_sec, na.rm = TRUE),
+        minimum = min(duration_sec, na.rm = TRUE)
+      )
+    
+    # plot that
+    duration_plot <- ggplot(summary, aes(x = Activity, y = as.numeric(duration_sec))) +
+      geom_boxplot(aes(color = Activity)) +  # Use color to distinguish activities
+      theme_minimal() +
+      theme(
+        legend.position = "none",             # Remove legend
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),  # Rotate x-axis labels 90 degrees
+        panel.grid = element_blank(),         # Remove grid lines
+        panel.border = element_rect(color = "black", fill = NA)  # Add black border around the plot
+      ) +
+      labs(
+        x = "Activity",
+        y = "Duration (seconds)"
+      ) +
+      scale_y_continuous(
+        limits = c(min(summary$duration_sec, na.rm = TRUE), max(summary$duration_sec, na.rm = TRUE)),  # Set y-axis limits
+        breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 160)  # Adjust the step size as needed
+      )
+    
+    return(list(duration_plot = duration_plot,
+                duration_stats = duration_stats))
+  }
 
 
 # Plot a Umap using the features dataset

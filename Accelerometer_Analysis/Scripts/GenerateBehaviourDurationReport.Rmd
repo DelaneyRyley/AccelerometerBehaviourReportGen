@@ -1,0 +1,56 @@
+---
+# Creating and assigning our global variables
+title: "Behaviour Duration Report"
+# Output file type
+output: html_document
+# Set the date based on your computer
+date: "`r Sys.Date()`"
+# Set default parameters
+params:
+  base_path: "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis"
+  dataset_name: ""
+  sample_rate: "1"
+---
+
+```{r Setup, include=FALSE}
+
+# Set the variables of our other chunks
+knitr::opts_chunk$set(
+  # Set so that for all of our plots, it won't include the code.
+  echo = FALSE,
+  # Set the global figure width.
+  fig.width = 5.625,
+  # Set the global figure height.
+  fig.height = 4.5)
+
+  # We need to check if the user has all the right packages installed and if they don't install them.
+# At this point we're just loading the packages but we need to change that.
+library(data.table)
+library(purrr)
+library(tidyverse)
+library(kableExtra)
+
+# Source all of our functions
+source(file.path(params$base_path, "Scripts", "Functions.R"))
+```
+
+```{r Load in Data, include = TRUE}
+
+# Source the Load Data script and attempt to load in the data
+source(file.path(params$base_path, "Scripts", "LoadData.R"))
+
+raw_data <- fread(file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_Training.csv")))
+
+```
+
+
+# Include all of the titles and descriptions here
+
+## Title
+
+text and descriptions
+
+```{r plot data volume, echo = FALSE}
+
+plotBehaviourDuration(data = raw_data, frequency = sample_rate)
+```

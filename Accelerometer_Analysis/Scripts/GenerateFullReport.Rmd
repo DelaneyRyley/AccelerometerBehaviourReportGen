@@ -89,4 +89,5 @@ text and descriptions
 
 ```{r plot data volume, echo = FALSE}
 plotActivityByID(data = raw_data, frequency = sample_rate)
+
 ```

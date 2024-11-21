@@ -1,0 +1,27 @@
+{
+    "id": "E357B15C",
+    "path": "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis/Scripts/Script_Main.R",
+    "project_path": "Scripts/Script_Main.R",
+    "type": "r_source",
+    "hash": "4140485124",
+    "contents": "",
+    "dirty": false,
+    "created": 1732143571870.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "75,11",
+        "scrollLine": "47",
+        "ignored_words": "behaviour,GenerateBehaviourDurationReport,GenerateFullReport\n"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1732163354,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1732163354905,
+    "read_only": false,
+    "read_only_alternatives": []
+}

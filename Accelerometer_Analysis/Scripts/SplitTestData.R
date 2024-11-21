@@ -1,13 +1,13 @@
 # Split out test data -----------------------------------------------------
 
 if
-  (file.exists(file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_test.csv"))))
+  (file.exists(file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_Test.csv"))))
   {
-    fread(file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_test.csv")))
+    fread(file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_Test.csv")))
    } else
   {
     # Read in the raw data
-    modified_data <- fread(file.path(base_path, "Data", "Modified_Data", paste0(dataset_name, "_modified.csv")))
+    modified_data <- fread(file.path(base_path, "Data", "Modified_Data", paste0(dataset_name, "_Modified.csv")))
     
     # How many individuals are in our data
     individuals <- unique(modified_data$ID)
@@ -26,7 +26,7 @@ if
       
     # Save both of these to the test data folder.
       # Save the test data to the test data folder
-      fwrite(test_data, file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_test.csv")))
+      fwrite(test_data, file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_Test.csv")))
       # Save the training/ validation data to the "other" data folder
-      fwrite(training_data, file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_other.csv")))
+      fwrite(training_data, file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_Training.csv")))
   }
