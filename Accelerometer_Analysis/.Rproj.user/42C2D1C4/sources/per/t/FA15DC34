@@ -3,7 +3,7 @@
     "path": "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis/Scripts/GenerateBehaviourDurationReport.Rmd",
     "project_path": "Scripts/GenerateBehaviourDurationReport.Rmd",
     "type": "r_markdown",
-    "hash": "2182400936",
+    "hash": "4005735102",
     "contents": "",
     "dirty": false,
     "created": 1732146664427.0,
@@ -12,20 +12,20 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "43,3",
-        "scrollLine": "33",
+        "cursorPosition": "17,22",
+        "scrollLine": "0",
         "rmdVisualMode": "false",
         "rmdVisualCollapsedChunks": "",
         "rmdVisualModeLocation": "2:0",
         "ignored_words": "behaviour,summarise,behaviours\n",
-        "last_setup_crc32": "f6feb1e9fee1ae6e"
+        "last_setup_crc32": ""
     },
     "folds": "",
-    "lastKnownWriteTime": 1732164231,
+    "lastKnownWriteTime": 1732511077,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1732164248168,
+    "last_content_update": 1732511077104,
     "read_only": false,
     "read_only_alternatives": []
 }

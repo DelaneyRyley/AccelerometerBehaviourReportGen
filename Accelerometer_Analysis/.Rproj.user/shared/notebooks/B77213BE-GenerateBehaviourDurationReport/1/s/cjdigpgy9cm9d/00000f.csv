@@ -1,0 +1,7 @@
+"0","# plotActivityByID(data = raw_data, frequency = sample_rate)"
+"0","  plotBehaviourDuration(data = raw_data, sample_rate = sample_rate)"
+"2","`summarise()` has grouped output by 'ID', 'Activity'. You can override using the `.groups` argument."
+"1","$duration_plot
+"
+"1","
+"

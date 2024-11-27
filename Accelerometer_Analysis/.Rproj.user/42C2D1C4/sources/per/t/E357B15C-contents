@@ -5,7 +5,7 @@
 
 # C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis/Scripts
 
-# Install packages  -------------------------------------------------------
+# Install packages and Source Functions -------------------------------------------------------
 library(data.table)
 library(tidyverse)
 library(tsfeatures)
@@ -20,6 +20,9 @@ library(ggpubr) # for retrieving the legend in one of my plots
   
   # Set the base path to our directory we are working from.
   base_path <- "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis"
+  
+  #Source Report Generator Functions
+  source(file.path(base_path, "Scripts", "Report_Generators.R"))
   
   # Here we created a dictionary that that's a list of variables for each species: sample rate and overlap
   species_settings <- list(Studd_Squirrel = list(sample_rate = 1, overlap_percent = 20, window_length = 10),
@@ -49,40 +52,40 @@ library(ggpubr) # for retrieving the legend in one of my plots
   # Call for the Rmd to generate into an html file: 
   
   # Create a check that sees if the file has already been created, or created recently.
-  # For now its not checking anything. Change later.
-  if (1 == 1) {
-    # Try and render the file, if you can't instead print an error (line ~82)
-    tryCatch(
+  
+  # Check if the file already exists
+  if (file.exists(paste0(base_path,"/Plots/", dataset_name, "_Behaviour_Duration_Report.html"))) {
+    # Print that the file already exists
+    cat(paste0("Behaviour duration report already exists for ", dataset_name,".csv", " in:\n\n", base_path, "/Plots/"))
+    cat("\n\n")
+    # Ask if they want to overwrite the file
+    overwrite <- menu(choices = c("Yes", "No"), title = "Would you like to overwrite it?")
+      # If yes then generate a new report
+      if (overwrite == 1)
       {
-
-        # Define the output directory and file
-        output_dir <- file.path(base_path, "Plots")
-        # Define what we will be calling
-        output_file <- paste0(dataset_name, "_Behaviour_Duration_Report.html")
-
-        # Knit the GenerateBehaviourDurationReport.Rmd file as an HTML report
-        rmarkdown::render(
-          # Input file that we are going to render
-          input = file.path(base_path, "Scripts", "GenerateBehaviourDurationReport.Rmd"),
-          # Output as a html document.
-          output_format = "html_document",
-          # Define the output file based on the previous output file variable
-          output_file = output_file,  # File name only
-          output_dir = output_dir,   # Directory for saving the file
-          params = list(
-            base_path = base_path,
-            dataset_name = dataset_name,
-            sample_rate = sample_rate
-          )
-        )
-
-        # Success message with full path
-        message("Exploration report saved to: ", file.path(output_dir, output_file))
-      }, error = function(e) {
-        message("Error in making the data exploration report: ", e$message)
-        stop()
-      })
-  }
+        tryCatch(
+          {
+            generateBD_Report(base_path, dataset_name, sample_rate)
+          }, error = function(e) {
+            message("Error in making the data exploration report: ", e$message)
+            stop()
+          })
+      }
+      # If not then quit the program.
+      else {
+        cat("Quitting Program...")
+      }
+    } else {
+    # If no report exists, generate one.
+      tryCatch(
+        {
+          generateBD_Report()
+        }, error = function(e) {
+          message("Error in making the data exploration report: ", e$message)
+          stop()
+        })
+    }
+    
 
 # Generate features for training data -------------------------------------
 

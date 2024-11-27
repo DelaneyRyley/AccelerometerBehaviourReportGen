@@ -1,0 +1,4 @@
+"0","  # Get the Behaviour duration plot and the behaviour names of the minimum
+  printer <- plotBehaviourDuration(data = raw_data, sample_rate = sample_rate)
+"
+"2","`summarise()` has grouped output by 'ID', 'Activity'. You can override using the `.groups` argument."

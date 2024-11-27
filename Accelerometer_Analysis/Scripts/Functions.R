@@ -1,8 +1,11 @@
+
+# Plots -------------------------------------------------------------------
+
 # Function for plotting the volume (in minutes) of behaviour per individual
-  plotBehaviourDuration <- function(data, frequency) 
+  plotActivityByID <- function(data, frequency) 
   {
     my_colours <- generate_random_colors(length(unique(data$ID)))
-    # summarise into a table
+    # Summarise into a table
     labelledDataSummary <- data %>%
       #filter(!Activity %in% ignore_behaviours) %>%
       count(ID, Activity)
@@ -18,9 +21,12 @@
           y = minutes,
           fill = as.factor(ID))) +
       geom_bar(stat = "identity") +
-      labs(x = "Activity",
-           y = "minutes") +
+      labs(x = "Behaviour",
+           y = "Minutes",
+           fill = "Individual ID") +
       theme_minimal() +
+      ### Added this line, seems to have broken the code
+      # scale_y_continuous(breaks = seq(p.max(minutes, na.rm = TRUE), p.min(minutes, na.rm = TRUE), by = (max(minutes)/10)))+
       scale_fill_manual(values = my_colours) +
       theme(axis.line = element_blank(),
             axis.text.x = element_text(angle = 45, hjust = 1),
@@ -29,6 +35,76 @@
             panel.grid.minor = element_blank())
     
     return(plot_activity_by_ID)
+  }
+  
+  # Plot the behaviour duration (i.e. sleep for 6 hours). Uses modified data
+  plotBehaviourDuration <- function(data, sample_rate)
+  {
+    summary <- data %>%
+      arrange(ID) %>%            # Sort by ID (not time because multiple trials in dog data)
+      group_by(ID) %>%      
+      mutate(
+        behavior_change = lag(Activity) != Activity,  # Detect changes in Activity
+        behavior_change = ifelse(is.na(behavior_change), TRUE, behavior_change)  # Handle the first row
+      ) %>%
+      mutate(
+        behavior_id = cumsum(behavior_change)  # Create an identifier for each continuous behavior segment
+      ) %>%
+      group_by(ID, behavior_id) %>%            # Group by ID and behavior_id
+      mutate(
+        row_count = row_number()                # Count rows within each behavior segment
+      ) %>%
+      ungroup() %>%
+      select(ID, Time, Activity, row_count, behavior_id) %>%   # Select relevant columns
+      group_by(ID, Activity, behavior_id) %>%
+      summarise(duration_sec = max(row_count)/sample_rate)
+    
+    duration_stats <- summary %>%
+      group_by(Activity) %>%
+      summarise(
+        median = median(duration_sec, na.rm = TRUE),
+        maximum = max(duration_sec, na.rm = TRUE),
+        minimum = min(duration_sec, na.rm = TRUE)
+      )
+    
+    # plot that
+    duration_plot <- ggplot(summary,
+                            aes(x = Activity,
+                                y = as.numeric(duration_sec))) +
+      geom_boxplot(aes(color = Activity)) +  # Use color to distinguish activities
+      # theme_minimal() +
+      theme(
+        legend.position = "none",             # Remove legend
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),  # Rotate x-axis labels 90 degrees
+        panel.grid = element_blank(),         # Remove grid lines
+        panel.border = element_rect(color = "black", fill = NA)  # Add black border around the plot
+      ) +
+      labs(
+        x = "Activity",
+        y = "Duration (seconds)"
+      ) +
+      scale_y_continuous(
+        limits = c(min(summary$duration_sec, na.rm = TRUE), max(summary$duration_sec, na.rm = TRUE)),  # Set y-axis limits
+        breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 60)  # Adjust the step size as needed
+      )
+    # Gets the behaviour names for all rows that contain the minimum behaviour duration.
+    min_activity_duration <- duration_stats$Activity[which((duration_stats$minimum) == min(duration_stats$minimum))]
+    # Does the same for the behaviours with the smallest medians.
+    min_median_activity_duration <- duration_stats$Activity[which((duration_stats$median == min(duration_stats$median)))]
+    # Create a list of all the objects we want to print in the R Markdown file
+    duration_report_combined <- list(
+      # Names of behaviours that share shortest duration.
+      min_activity_duration,
+      # The shortest behaviour time in seconds
+      min(duration_stats$minimum),
+      # The behaviours with the smallest median duration
+      min_median_activity_duration,
+      # The shorted median duration time in seconds.
+      min(duration_stats$median),
+      # the GGplot of our behaviours
+      duration_plot
+      )
+    return(duration_report_combined)
   }
   
   # load in the raw data and cleaned feature data (e.g., remove redundant and NA features)
@@ -61,7 +137,6 @@
 
 # All Generate Feature Functions ------------------------------------------
 
-  
   # Main function that calls the others
   generateFeatures <- function(window_length, sample_rate, overlap_percent, raw_data, features_type)
   {
@@ -123,7 +198,8 @@
       if ("timeseries" %in% features_type) {
         time_series_features <- tryCatch({
           generateTsFeatures(data = window_chunk)
-        }, error = function(e) {
+        }, 
+        error = function(e) {
           message("Error in tsfeatures: ", e$message)
           return(tibble())  # Return an empty tibble on error
         })
@@ -243,6 +319,7 @@
                 Total_Power = total_power,
                 Peak_Frequency = peak_frequency))
   }
+  
   
   # making this faster using := which modifies in place rather than copying and modifying
   generateStatisticalFeatures <- function(window_chunk, down_Hz) {
