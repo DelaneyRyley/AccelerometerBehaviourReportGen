@@ -57,13 +57,36 @@ The point of this plot is to use it to determine what your ideal window length i
 ```{r plot data volume, echo = FALSE}
   # Get the Behaviour duration plot and the behaviour names of the minimum
   printer <- plotBehaviourDuration(data = raw_data, sample_rate = sample_rate)
-  # print the behaviours that are of the minimum
+  # Draw the plot on the report
+  printer[[7]]
+  printer[[8]]
   
+#   #Need to include:
+# Report both mean and median XX
+# 
+# Report (x)max duration, (x)minimum, (x)mean, (x)median and the (x)lower quantile.
+#  Report the smallest lower quantile, and the behaviours associated with it.
+  
+  
+  
+# Present maybe the lower quantile mean.
+# 
+# needs to include edge cases for multiple behaviours having the same minimum XX
 ```
 
+<!-- Prints list of behaviours with the shortest durations followed by how long the shortest behaviour is   -->
+#### Minimum Behaviour Duration:
+`r paste0("Your behaviour(s) with the shortest minimum duration are: <br> ", paste(printer[[1]], collapse = ", "))`
+`r paste0("with a duration of: ", (printer[[2]]), " seconds", "<br><br>")`
 
-`r paste0("Your behaviour(s) with the shortest duration are: <br> ", paste(printer[[1]], collapse = ", "))`
-`r paste0("with a duration of: ", (printer[[2]]), " seconds")`
+<!-- Prints list of behaviours with the smallest median duration in seconds followed by how long the shortest behavior is -->
+#### Median Behaviour Duration:
+`r paste0("Your behaviour(s) with the shortest median duration are: <br> ", paste(printer[[3]], collapse = ", "))`
+`r paste0("with a duration of: ", (printer[[4]]), " seconds")`
+
+#### Lower-Quantile Behaviour Duration:
+`r paste0("Your behaviour(s) with the smallest lower quantile: <br> ", paste(printer[[5]], collapse = ", "))`
+`r paste0("with a duration of: ", (printer[[6]]), " seconds")`
 
 
 ### How to use:

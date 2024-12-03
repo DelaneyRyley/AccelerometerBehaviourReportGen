@@ -59,12 +59,15 @@
       group_by(ID, Activity, behavior_id) %>%
       summarise(duration_sec = max(row_count)/sample_rate)
     
+    # Create a DF of stats about the behaviour durations
     duration_stats <- summary %>%
       group_by(Activity) %>%
       summarise(
-        median = median(duration_sec, na.rm = TRUE),
-        maximum = max(duration_sec, na.rm = TRUE),
-        minimum = min(duration_sec, na.rm = TRUE)
+        dur_median = median(duration_sec, na.rm = TRUE),
+        dur_maximum = max(duration_sec, na.rm = TRUE),
+        dur_minimum = min(duration_sec, na.rm = TRUE),
+        dur_mean = mean(duration_sec, na.rm = TRUE),
+        dur_lwr_quantile = quantile(duration_sec, probs = 0.25, na.rm = TRUE)
       )
     
     # plot that
@@ -88,21 +91,29 @@
         breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 60)  # Adjust the step size as needed
       )
     # Gets the behaviour names for all rows that contain the minimum behaviour duration.
-    min_activity_duration <- duration_stats$Activity[which((duration_stats$minimum) == min(duration_stats$minimum))]
+    min_activity_duration <- duration_stats$Activity[which((duration_stats$dur_minimum) == min(duration_stats$dur_minimum))]
     # Does the same for the behaviours with the smallest medians.
-    min_median_activity_duration <- duration_stats$Activity[which((duration_stats$median == min(duration_stats$median)))]
+    min_median_activity_duration <- duration_stats$Activity[which((duration_stats$dur_median == min(duration_stats$dur_median)))]
+    # Does the same for the behaviours with the smallest medians.
+    min_lwrquantile_activity_duration <- duration_stats$Activity[which((duration_stats$dur_lwr_quantile == min(duration_stats$dur_lwr_quantile)))]
     # Create a list of all the objects we want to print in the R Markdown file
     duration_report_combined <- list(
-      # Names of behaviours that share shortest duration.
-      min_activity_duration,
-      # The shortest behaviour time in seconds
-      min(duration_stats$minimum),
-      # The behaviours with the smallest median duration
-      min_median_activity_duration,
-      # The shorted median duration time in seconds.
-      min(duration_stats$median),
-      # the GGplot of our behaviours
-      duration_plot
+      # [1] Names of behaviours that share shortest duration.
+      "Smallest Minimum Behaviours" = min_activity_duration,
+      # [2] The shortest behaviour time in seconds
+      "Smallest Minimum Behaviour Duration" = min(duration_stats$dur_minimum),
+      # [3] The behaviours with the smallest median duration
+      "Smallest Median Behaviours" = min_median_activity_duration,
+      # [4] The shortest median duration time in seconds.
+      "Smallest Median Behaviour Duration" = min(duration_stats$dur_median),
+      # [5] The behaviours with the smallest lower quantiles (25%) duration.
+      "Smallest Lower Quantiles Behaviours" = min_lwrquantile_activity_duration,
+      # [6] The shortest lower quantile duration in seconds.
+      "Smallest Lower Quantile Behaviour Durations" = min(duration_stats$dur_lwr_quantile),
+      # [7] The GGplot of our behaviours
+      "Boxplot" = duration_plot,
+      # [8] A DF of all the stats: Activities, Median, Maximum, Minimum.
+      "Duration Stats" = duration_stats
       )
     return(duration_report_combined)
   }
