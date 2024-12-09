@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "exc_out",
+        "query": "raw_data",
         "path": "",
         "regex": false,
         "caseSensitive": false,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 5,
+        "resultsCount": 26,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true

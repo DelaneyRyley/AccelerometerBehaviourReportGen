@@ -71,11 +71,38 @@
       )
     
     # plot that
-    duration_plot <- ggplot(summary,
+    duration_plot <<- ggplot(summary,
                             aes(x = Activity,
                                 y = as.numeric(duration_sec))) +
       geom_boxplot(aes(color = Activity), # Use color to distinguish activities
-                   outliers = inc_outliers) +  # Remove outliers from boxplot
+                   outliers = inc_outliers)  # Remove outliers from boxplot based on input
+    # Creating a variable of the box-plot data
+    duration_plot_data <<- ggplot_build(duration_plot)$data[[1]]
+    
+    # Create variables for the upper and lower scales with and without outliers.
+    # With outliers
+    inc_ymax <- max(summary$duration_sec, na.rm = TRUE)
+    inc_ymin <- min(summary$duration_sec, na.rm = TRUE)
+    # Without outliers
+    exc_ymax <- max(duration_plot_data$ymax, na.rm = TRUE)
+    exc_ymin <- min(duration_plot_data$ymin, na.rm = TRUE)
+    
+    # Check to see whether to include outliers or not and adjust y-scale accordingly
+    if (inc_outlier_choice == TRUE) {
+      duration_plot <- duration_plot +
+      scale_y_continuous(
+        limits = c(inc_ymin, inc_ymax),  # Set y-axis limits to min/max duration
+        breaks = seq(0, inc_ymax, by = 60),  # Adjust the step size
+      )
+    } else {
+      duration_plot <- duration_plot +
+        scale_y_continuous(
+          limits = c(exc_ymin,exc_ymax), # Set limits to the end ranges of Q1 and Q3
+          breaks = seq(0, exc_ymax, by = 60) # Adjust step size based on Q3
+        )
+    }
+    
+    duration_plot <- duration_plot +
       theme(
         legend.position = "none",             # Remove legend
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),  # Rotate x-axis labels 90 degrees
@@ -83,29 +110,9 @@
         panel.border = element_rect(color = "black", fill = NA)  # Add black border around the plot
       ) +
       labs(
-        x = "Activity",
-        y = "Duration (seconds)"
+        y = "Duration (seconds)",
+        x = "Activities"
       ) 
-    # Creating a variable of the box-plot data
-    duration_plot_data <<- ggplot_build(duration_plot)$data[[1]]
-    
-    # Check to see whether to include outliers or not and adjust y-scale accordingly
-    if (inc_outlier_choice == TRUE) {
-      duration_plot <- duration_plot +
-      scale_y_continuous(
-        limits = c(min(summary$duration_sec, na.rm = TRUE),
-                   max(summary$duration_sec, na.rm = TRUE)),  # Set y-axis limits to min/max duration
-        breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 60),  # Adjust the step size
-        print(max(summary$duration_sec))
-      )
-    } else {
-      duration_plot <- duration_plot +
-        scale_y_continuous(
-          limits = c(min(duration_plot_data$ymin, na.rm = TRUE),
-                     max(duration_plot_data$ymax, na.rm = TRUE)), # Set limits to the end ranges of Q1 and Q3
-          breaks = seq(0, max(duration_plot_data$ymax, na.rm = TRUE), by = 60) # Adjust step size based on Q3
-        )
-    }
     
     # Gets the behaviour names for all rows that contain the minimum behaviour duration.
     min_activity_duration <- duration_stats$Activity[which((duration_stats$dur_minimum) == min(duration_stats$dur_minimum))]
