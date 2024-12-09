@@ -38,7 +38,7 @@
   }
   
   # Plot the behaviour duration (i.e. sleep for 6 hours). Uses modified data
-  plotBehaviourDuration <- function(data, sample_rate)
+  plotBehaviourDuration <- function(data, sample_rate, inc_outliers = FALSE)
   {
     summary <- data %>%
       arrange(ID) %>%            # Sort by ID (not time because multiple trials in dog data)
@@ -63,10 +63,10 @@
     duration_stats <- summary %>%
       group_by(Activity) %>%
       summarise(
+        dur_mean = mean(duration_sec, na.rm = TRUE),
+        dur_minimum = min(duration_sec, na.rm = TRUE),
         dur_median = median(duration_sec, na.rm = TRUE),
         dur_maximum = max(duration_sec, na.rm = TRUE),
-        dur_minimum = min(duration_sec, na.rm = TRUE),
-        dur_mean = mean(duration_sec, na.rm = TRUE),
         dur_lwr_quantile = quantile(duration_sec, probs = 0.25, na.rm = TRUE)
       )
     
@@ -74,8 +74,8 @@
     duration_plot <- ggplot(summary,
                             aes(x = Activity,
                                 y = as.numeric(duration_sec))) +
-      geom_boxplot(aes(color = Activity)) +  # Use color to distinguish activities
-      # theme_minimal() +
+      geom_boxplot(aes(color = Activity), # Use color to distinguish activities
+                   outliers = inc_outliers) +  # Remove outliers from boxplot
       theme(
         legend.position = "none",             # Remove legend
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),  # Rotate x-axis labels 90 degrees
@@ -85,11 +85,28 @@
       labs(
         x = "Activity",
         y = "Duration (seconds)"
-      ) +
+      ) 
+    # Creating a variable of the box-plot data
+    duration_plot_data <<- ggplot_build(duration_plot)$data[[1]]
+    
+    # Check to see whether to include outliers or not and adjust y-scale accordingly
+    if (inc_outlier_choice == TRUE) {
+      duration_plot <- duration_plot +
+        #### EXAMINE THIS TO FIGURE OUT HOW TO ADJUST THE SCALE LIMITS OF THE GRAPH SO IT PRESENTS BETTER ####
       scale_y_continuous(
-        limits = c(min(summary$duration_sec, na.rm = TRUE), max(summary$duration_sec, na.rm = TRUE)),  # Set y-axis limits
-        breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 60)  # Adjust the step size as needed
+        limits = c(min(summary$duration_sec, na.rm = TRUE),
+                   max(summary$duration_sec, na.rm = TRUE)),  # Set y-axis limits to min/max duration
+        breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 60)  # Adjust the step size
       )
+    } else {
+      duration_plot <- duration_plot +
+        scale_y_continuous(
+          limits = c(min(duration_plot_data$lower, na.rm = TRUE),
+                     max(duration_plot_data$upper, na.rm = TRUE)), # Set limits to the end ranges of Q1 and Q3
+          breaks = seq(0, max(duration_plot_data$upper, na.rm = TRUE), by = 60) # Adjust step size based on Q3
+        )
+    }
+    
     # Gets the behaviour names for all rows that contain the minimum behaviour duration.
     min_activity_duration <- duration_stats$Activity[which((duration_stats$dur_minimum) == min(duration_stats$dur_minimum))]
     # Does the same for the behaviours with the smallest medians.
@@ -113,7 +130,9 @@
       # [7] The GGplot of our behaviours
       "Boxplot" = duration_plot,
       # [8] A DF of all the stats: Activities, Median, Maximum, Minimum.
-      "Duration Stats" = duration_stats
+      "Duration Stats" = duration_stats %>% 
+        setNames(c("Behaviour","Mean", "Minimum", "Median",
+                   "Maximum", "Lower Quantile"))
       )
     return(duration_report_combined)
   }

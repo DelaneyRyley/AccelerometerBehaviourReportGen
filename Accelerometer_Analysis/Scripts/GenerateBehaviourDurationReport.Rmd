@@ -49,46 +49,43 @@ raw_data <- fread(file.path(base_path, "Data", "Other_Data", paste0(dataset_name
 
 ## Behaviour Classification of Individuals
 
-###
-The data used for this split 
-below is a graph of all individuals classed by behaviours in minutes.
+### The data used for this split is: `r dataset_name`
+<br>
+Below is a graph of all individuals classed by behaviours in minutes.
 The point of this plot is to use it to determine what your ideal window length is, which will be used to generate statistical and time series features.
+
+### How to use:
+Window lengths are used to condense multiple observations into a single row of data.
 
 ```{r plot data volume, echo = FALSE}
   # Get the Behaviour duration plot and the behaviour names of the minimum
-  printer <- plotBehaviourDuration(data = raw_data, sample_rate = sample_rate)
+  printer <- plotBehaviourDuration(data = raw_data, sample_rate = sample_rate, inc_outliers = inc_outlier_choice)
   # Draw the plot on the report
   printer[[7]]
-  printer[[8]]
-  
-#   #Need to include:
-# Report both mean and median XX
-# 
-# Report (x)max duration, (x)minimum, (x)mean, (x)median and the (x)lower quantile.
-#  Report the smallest lower quantile, and the behaviours associated with it.
-  
-  
-  
-# Present maybe the lower quantile mean.
-# 
-# needs to include edge cases for multiple behaviours having the same minimum XX
+  # Draw the dataframe of summary data
+  kable(printer[[8]], caption = "Summary of Activity Durations") %>% 
+    kable_styling(
+      bootstrap_options = c("basic","hover"),
+      position = "center",
+      row_label_position = "center"
+      #fixed_thead = c(enabled = TRUE, background = "firebrick")
+    )
 ```
+<!-- Add a break in lines before header-->
+<br><br>
 
 <!-- Prints list of behaviours with the shortest durations followed by how long the shortest behaviour is   -->
 #### Minimum Behaviour Duration:
-`r paste0("Your behaviour(s) with the shortest minimum duration are: <br> ", paste(printer[[1]], collapse = ", "))`
+`r paste0("Your behaviour(s) with the shortest minimum duration are: <br> ","<b>", paste(printer[[1]], collapse = ", "), "</b>")`
 `r paste0("with a duration of: ", (printer[[2]]), " seconds", "<br><br>")`
 
 <!-- Prints list of behaviours with the smallest median duration in seconds followed by how long the shortest behavior is -->
 #### Median Behaviour Duration:
-`r paste0("Your behaviour(s) with the shortest median duration are: <br> ", paste(printer[[3]], collapse = ", "))`
-`r paste0("with a duration of: ", (printer[[4]]), " seconds")`
+`r paste0("Your behaviour(s) with the shortest median duration are: <br> ","<b>", paste(printer[[3]], collapse = ", "), "</b>")`
+`r paste0("with a duration of: ", (printer[[4]]), " seconds", "<br><br>")`
 
 #### Lower-Quantile Behaviour Duration:
-`r paste0("Your behaviour(s) with the smallest lower quantile: <br> ", paste(printer[[5]], collapse = ", "))`
+`r paste0("Your behaviour(s) with the smallest lower quantiles are: <br> ","<b>", paste(printer[[5]], collapse = ", "), "</b>")`
 `r paste0("with a duration of: ", (printer[[6]]), " seconds")`
 
 
-### How to use:
-Window lengths are used to condense multiple observations into a single row of data.
-Duration stats

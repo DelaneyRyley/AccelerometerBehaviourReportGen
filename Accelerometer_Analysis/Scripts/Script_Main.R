@@ -65,6 +65,7 @@ library(ggpubr) # for retrieving the legend in one of my plots
       {
         tryCatch(
           {
+            inc_outlier_choice = as.logical((menu(c("Exclude","Include"), title = "Include outliers in behaviour duration plot?"))-1)
             generateBD_Report(base_path, dataset_name, sample_rate)
           }, error = function(e) {
             message("Error in making the data exploration report: ", e$message)
@@ -79,7 +80,8 @@ library(ggpubr) # for retrieving the legend in one of my plots
     # If no report exists, generate one.
       tryCatch(
         {
-          generateBD_Report()
+          inc_outlier_choice = as.logical((menu(c("Exclude","Include"), title = "Include outliers in behaviour duration plot?"))-1)
+          generateBD_Report(base_path, dataset_name, sample_rate)
         }, error = function(e) {
           message("Error in making the data exploration report: ", e$message)
           stop()
@@ -92,43 +94,5 @@ library(ggpubr) # for retrieving the legend in one of my plots
 # currently set to only process a very small number of windows
 source(file.path(base_path, "Scripts", "GeneratingFeatures.R"))
 
-# Call for the Rmd to generate into an html file: 
-  
-  # Create a check that sees if the file has already been created, or created recently.
-  # For now its not checking anything. Change later.
-  # if (1 == 1) {
-  #   # Try and render the file, if you can't instead print an error (line ~89)
-  #   tryCatch(
-  #     {
-  #     # Define the output directory and file
-  #     output_dir <- file.path(base_path, "Plots")
-  #     # Define what we will be calling
-  #     output_file <- paste0(dataset_name, "_exploration.html")
-  #     
-  #     # Knit the GenerateFullReport.Rmd file as an HTML report
-  #     rmarkdown::render(
-  #       # Input file that we are going to render
-  #       input = file.path(base_path, "Scripts", "GenerateFullReport.Rmd"),
-  #       # Output as a html document.
-  #       output_format = "html_document",
-  #       # Define the output file based on the previous output file variable
-  #       output_file = output_file,  # File name only
-  #       output_dir = output_dir,   # Directory for saving the file
-  #       params = list(
-  #         base_path = base_path,
-  #         dataset_name = dataset_name,
-  #         sample_rate = sample_rate
-  #       )
-  #     )
-  #     
-  #     # Success message with full path
-  #     message("Exploration report saved to: ", file.path(output_dir, output_file))
-  #   }, error = function(e) {
-  #     message("Error in making the data exploration report: ", e$message)
-  #     stop()
-  #   })
-  # }
-
-# End of File
 
 
