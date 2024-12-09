@@ -1,9 +1,8 @@
 # Main Script for Sensitivity Analysis Data Exploration --------------------------
 # Written by Oakleigh Wilson, Nov 2024
+# Abridged by Ryley Delaney, Nov 2024
 
 # Main Script for Sensitivity Analysis ------------------------------------
-
-# C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis/Scripts
 
 # Install packages and Source Functions -------------------------------------------------------
 library(data.table)
@@ -19,8 +18,8 @@ library(ggpubr) # for retrieving the legend in one of my plots
   dataset_name <- "Studd_Squirrel"
   
   # Set the base path to our directory we are working from.
-  base_path <- "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis"
-  
+    # base_path <- "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis"
+  base_path <- getwd()
   #Source Report Generator Functions
   source(file.path(base_path, "Scripts", "Report_Generators.R"))
   
@@ -39,8 +38,8 @@ library(ggpubr) # for retrieving the legend in one of my plots
 
 
 # Create Directories ----------------------------------------------------------
-
- # In a separate script titled ModifyData we have edited the data and rewritten it.
+  createDirectories()
+ # In a separate script titled "ModifyData" we have edited the data and rewritten it.
 
   # Split test data out and load other data ---------------------------------
   source(file.path(base_path, "Scripts", "SplitTestData.R"))
@@ -65,7 +64,7 @@ library(ggpubr) # for retrieving the legend in one of my plots
       {
         tryCatch(
           {
-            inc_outlier_choice = as.logical((menu(c("Exclude","Include"), title = "Include outliers in behaviour duration plot?"))-1)
+            inc_outlier_choice = !(as.logical((menu(c("Include","Exclude"), title = "Include outliers in behaviour duration plot?"))-1))
             generateBD_Report(base_path, dataset_name, sample_rate)
           }, error = function(e) {
             message("Error in making the data exploration report: ", e$message)
@@ -80,7 +79,7 @@ library(ggpubr) # for retrieving the legend in one of my plots
     # If no report exists, generate one.
       tryCatch(
         {
-          inc_outlier_choice = as.logical((menu(c("Exclude","Include"), title = "Include outliers in behaviour duration plot?"))-1)
+          inc_outlier_choice = as.logical((menu(c("Include","Exclude"), title = "Include outliers in behaviour duration plot?"))-1)
           generateBD_Report(base_path, dataset_name, sample_rate)
         }, error = function(e) {
           message("Error in making the data exploration report: ", e$message)

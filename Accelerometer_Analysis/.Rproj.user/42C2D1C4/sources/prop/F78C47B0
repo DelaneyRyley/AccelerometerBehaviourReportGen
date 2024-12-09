@@ -1,11 +1,11 @@
 {
     "source_window_id": "",
     "Source": "Source",
-    "cursorPosition": "62,31",
-    "scrollLine": "55",
+    "cursorPosition": "25,17",
+    "scrollLine": "11",
     "rmdVisualMode": "false",
     "rmdVisualCollapsedChunks": "",
     "rmdVisualModeLocation": "2:0",
     "ignored_words": "behaviour,summarise,behaviours,quartile,Behaviour,dataframe\n",
-    "last_setup_crc32": ""
+    "last_setup_crc32": "550979b4d1d94bf2"
 }

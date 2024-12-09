@@ -25,3 +25,6 @@ generateBD_Report <- function(base_path, dataset_name, sample_rate) {
   # Write success message w/ path
   message(paste0("Exploration report saved to: ",base_path, "Plots"))
 }
+createDirectories <- function() {
+  
+}

@@ -92,18 +92,18 @@
     # Check to see whether to include outliers or not and adjust y-scale accordingly
     if (inc_outlier_choice == TRUE) {
       duration_plot <- duration_plot +
-        #### EXAMINE THIS TO FIGURE OUT HOW TO ADJUST THE SCALE LIMITS OF THE GRAPH SO IT PRESENTS BETTER ####
       scale_y_continuous(
         limits = c(min(summary$duration_sec, na.rm = TRUE),
                    max(summary$duration_sec, na.rm = TRUE)),  # Set y-axis limits to min/max duration
-        breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 60)  # Adjust the step size
+        breaks = seq(0, max(summary$duration_sec, na.rm = TRUE), by = 60),  # Adjust the step size
+        print(max(summary$duration_sec))
       )
     } else {
       duration_plot <- duration_plot +
         scale_y_continuous(
-          limits = c(min(duration_plot_data$lower, na.rm = TRUE),
-                     max(duration_plot_data$upper, na.rm = TRUE)), # Set limits to the end ranges of Q1 and Q3
-          breaks = seq(0, max(duration_plot_data$upper, na.rm = TRUE), by = 60) # Adjust step size based on Q3
+          limits = c(min(duration_plot_data$ymin, na.rm = TRUE),
+                     max(duration_plot_data$ymax, na.rm = TRUE)), # Set limits to the end ranges of Q1 and Q3
+          breaks = seq(0, max(duration_plot_data$ymax, na.rm = TRUE), by = 60) # Adjust step size based on Q3
         )
     }
     
