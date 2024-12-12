@@ -1,6 +1,6 @@
 # Basic Functionality ---------------------------------------------------------
 # Creates all the necessary folders based on working directories
-createDirectories <- function(wrkdir = getwd()) # Defaults as working directory if not specified
+createDirectories <- function(wrkdir = base_path) # Defaults as working directory if not specified
 {
   datdirmade <- FALSE
   # Check if Data folder exists
@@ -38,6 +38,41 @@ createDirectories <- function(wrkdir = getwd()) # Defaults as working directory 
   }
 }
 
+# Set as default that the raw data doesn't exist, in case the script is used twice without clearing the environment.
+loadData <- function() 
+{
+raw_data_exists <- FALSE
+
+if (dataset_name == "") {
+  print("Dataset defined as blank.")
+} else
+{
+  # If
+  if(!file.exists(file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_Training.csv"))))
+  {
+    raw_data_exists <- FALSE
+    print(paste0("Data set ", dataset_name, "_Training.csv", " Couldn't be found. Check your base path."))
+  }
+  else
+  {
+    raw_data_exists <- TRUE
+  }
+}
+}
+
+# Load all data files into a list and select which to use.
+readData <- function(wrkdir = base_path) {
+  
+  # Add all .csv files from Data folder into a single object
+  csv_names <<- list.files(paste0(wrkdir,"/Data/Modified_Data"), pattern = "\\.csv$", full.names = TRUE)
+
+  # Get just the names of the files.
+  datanames <<- lapply(csv_names, basename)
+  
+  # Get the user to choose which dataset to use (based on Datanames)
+  
+  # Select and set the dataset being used based on csv_names
+}
 
 # Plots -------------------------------------------------------------------
 

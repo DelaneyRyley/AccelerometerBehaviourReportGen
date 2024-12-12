@@ -33,10 +33,10 @@ knitr::opts_chunk$set(
 
 ```{r Load in Data, include = TRUE}
 
-# Source the Load Data script and attempt to load in the data
-source(file.path(params$base_path, "Scripts", "LoadData.R"))
+# Source the Load Data script and attempt to load in the training data
+loadData()
 
-raw_data <- fread(file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_Training.csv")))
+training_data <- fread(file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_Training.csv")))
 
 ```
 
@@ -52,7 +52,7 @@ Window lengths are used to condense multiple observations into a single row of d
 
 ```{r plot data volume, fig.height=8, fig.width = 10, dpi = 600, out.width="100%", out.height="100%", echo = FALSE}
   # Get the Behaviour duration plot and the behaviour names of the minimum
-  printer <- plotBehaviourDuration(data = raw_data, sample_rate = sample_rate, inc_outliers = inc_outlier_choice)
+  printer <- plotBehaviourDuration(data = training_data, sample_rate = sample_rate, inc_outliers = inc_outlier_choice)
   # Draw the plot on the report
   printer[[7]]
   # Draw the dataframe of summary data

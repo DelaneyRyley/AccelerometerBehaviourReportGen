@@ -45,6 +45,9 @@ source(file.path("Scripts/Functions.R"))
 
 # Create Directories ----------------------------------------------------------
   createDirectories()
+  
+# Read in Data
+  readData()
  # In a separate script titled "ModifyData" we have edited the data and rewritten it.
 
   # Split test data out and load other data ---------------------------------
