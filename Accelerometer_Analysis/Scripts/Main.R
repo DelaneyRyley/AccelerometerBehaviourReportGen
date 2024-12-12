@@ -10,7 +10,13 @@ library(tidyverse)
 library(tsfeatures)
 library(umap)
 library(caret)
+library(data.table)
+library(purrr)
+library(tidyverse)
+library(kableExtra)
 library(ggpubr) # for retrieving the legend in one of my plots
+# Source all of our functions
+source(file.path("Scripts/Functions.R"))
 
 # Hardcoded variables -----------------------------------------------------
 
@@ -53,9 +59,9 @@ library(ggpubr) # for retrieving the legend in one of my plots
   # Create a check that sees if the file has already been created, or created recently.
   
   # Check if the file already exists
-  if (file.exists(paste0(base_path,"/Plots/", dataset_name, "_Behaviour_Duration_Report.html"))) {
+  if (file.exists(paste0(base_path,"/Outputs/", dataset_name, "_Behaviour_Duration_Report.html"))) {
     # Print that the file already exists
-    cat(paste0("Behaviour duration report already exists for ", dataset_name,".csv", " in:\n\n", base_path, "/Plots/"))
+    cat(paste0("Behaviour duration report already exists for ", dataset_name,".csv", " in:\n\n", base_path, "/Outputs/"))
     cat("\n\n")
     # Ask if they want to overwrite the file
     overwrite <- menu(choices = c("Yes", "No"), title = "Would you like to overwrite it?")
@@ -87,6 +93,10 @@ library(ggpubr) # for retrieving the legend in one of my plots
         })
     }
     
+
+  
+# Open Behaviour Report 
+  browseURL(paste0("Outputs/", dataset_name, "_Behaviour_Duration_Report.html"))
 
 # Generate features for training data -------------------------------------
 

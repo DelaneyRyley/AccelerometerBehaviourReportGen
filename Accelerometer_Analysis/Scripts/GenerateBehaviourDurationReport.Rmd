@@ -29,13 +29,6 @@ knitr::opts_chunk$set(
 
   # We need to check if the user has all the right packages installed and if they don't install them.
 # At this point we're just loading the packages but we need to change that.
-library(data.table)
-library(purrr)
-library(tidyverse)
-library(kableExtra)
-
-# Source all of our functions
-source(file.path(params$base_path, "Scripts", "Functions.R"))
 ```
 
 ```{r Load in Data, include = TRUE}

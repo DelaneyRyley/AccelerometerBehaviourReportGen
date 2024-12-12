@@ -1,3 +1,43 @@
+# Basic Functionality ---------------------------------------------------------
+# Creates all the necessary folders based on working directories
+createDirectories <- function(wrkdir = getwd()) # Defaults as working directory if not specified
+{
+  datdirmade <- FALSE
+  # Check if Data folder exists
+  print("Checking if Data folder exists...")
+  if (dir.exists(paste0(wrkdir,"/Data")))
+  {
+    print("Data Folder exists")
+  }
+  else
+  {
+    datdirmade <- TRUE
+    print("Creating Data folder.")
+    dir.create(paste0(wrkdir,"/Data"))
+  }
+  
+  
+  # Check if Outputs folder exists
+  print("Checking if Outputs folder exists...")
+  if (dir.exists(paste0(wrkdir,"/Outputs")))
+  {
+    print("Outputs Folder exists")
+  }
+  else
+  {
+    print("Creating Outputs folder.")
+    dir.create(paste0(wrkdir,"/Outputs"))
+  }
+  
+  # If Data folder made, direct user to place there data in the folder.
+  if (datdirmade == TRUE) 
+  {
+    cat("\n\n")
+    cat("Data folder created, please place .csv's in data folder\n")
+    readline(prompt = "Press ENTER to continue")
+  }
+}
+
 
 # Plots -------------------------------------------------------------------
 

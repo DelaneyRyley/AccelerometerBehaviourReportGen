@@ -14,8 +14,8 @@ generateBD_Report <- function(base_path, dataset_name, sample_rate) {
     output_format = "html_document",
     # Define the output file based on the previous output file variable
     output_file = output_file,  # File name only
-    # May need to check if "plots" folder exists and create it, possibly in another script.
-    output_dir = file.path(base_path, "Plots"),   # Directory for saving the file
+    # May need to check if "Outputs" folder exists and create it, possibly in another script.
+    output_dir = file.path(base_path, "Outputs"),   # Directory for saving the file
     params = list(
       base_path = base_path,
       dataset_name = dataset_name,
@@ -23,8 +23,5 @@ generateBD_Report <- function(base_path, dataset_name, sample_rate) {
     )
   )
   # Write success message w/ path
-  message(paste0("Exploration report saved to: ",base_path, "Plots"))
-}
-createDirectories <- function() {
-  
+  message(paste0("Exploration report saved to: ",base_path, "Outputs"))
 }
