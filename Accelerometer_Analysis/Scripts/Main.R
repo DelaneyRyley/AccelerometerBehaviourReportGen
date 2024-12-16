@@ -106,9 +106,9 @@ source(file.path("Scripts/Functions.R"))
 
 # Generate features for training data -------------------------------------
   # Gets the inputs for the sample rate, overlap percentage and window length.
-  getFeatureInputs()
+  feature_settings <- getFeatureInputs()
 # currently set to only process a very small number of windows
-source(file.path(base_path, "Scripts", "GeneratingFeatures.R"))
+generateFeatureData()
 
 
 
