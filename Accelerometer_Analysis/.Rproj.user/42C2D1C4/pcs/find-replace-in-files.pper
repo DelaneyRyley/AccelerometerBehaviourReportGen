@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "raw_data",
+        "query": "check your base",
         "path": "",
         "regex": false,
         "caseSensitive": false,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 26,
+        "resultsCount": 2,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true

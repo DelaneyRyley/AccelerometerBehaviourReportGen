@@ -39,6 +39,8 @@ source(file.path("Scripts/Functions.R"))
   overlap_percent <- species_settings[[dataset_name]]$overlap_percent
   # Same for window length
   window_length <- species_settings[[dataset_name]]$window_length
+  # Assign feature settings to a global variable.
+  feature_settings <- c(sample_rate, overlap_percent, window_length)
   # Assign available axes
   available_axes <- c("Accelerometer.X", "Accelerometer.Y", "Accelerometer.Z")
 
@@ -101,8 +103,10 @@ source(file.path("Scripts/Functions.R"))
 # Open Behaviour Report 
   browseURL(paste0("Outputs/", dataset_name, "_Behaviour_Duration_Report.html"))
 
-# Generate features for training data -------------------------------------
 
+# Generate features for training data -------------------------------------
+  # Gets the inputs for the sample rate, overlap percentage and window length.
+  getFeatureInputs()
 # currently set to only process a very small number of windows
 source(file.path(base_path, "Scripts", "GeneratingFeatures.R"))
 

@@ -1,3 +1,5 @@
+
+
 # Basic Functionality ---------------------------------------------------------
 # Creates all the necessary folders based on working directories
 createDirectories <- function(wrkdir = base_path) # Defaults as working directory if not specified
@@ -28,6 +30,26 @@ createDirectories <- function(wrkdir = base_path) # Defaults as working director
     print("Creating Outputs folder.")
     dir.create(paste0(wrkdir,"/Outputs"))
   }
+
+# Create directories that don't exist -------------------------------------
+
+  # Create any directories that don't already exist
+  if(!dir.exists(paste0(wrkdir, "/Data/Data")))
+  {
+    dir.create(paste0(wrkdir, "/Data/Data"))
+  }
+  if (!dir.exists(paste0(wrkdir, "/Data/Feature_Data")))
+  {
+    dir.create(paste0(wrkdir, "/Data/Feature_Data"))
+  }
+  if (!dir.exists(paste0(wrkdir, "/Data/Test_Data")))
+  {
+    dir.create(paste0(wrkdir,"/Data/Test_Data"))
+  }
+  if (!dir.exists(paste0(wrkdir, "/Data/Training_Data")))
+  {
+    dir.create(paste0(wrkdir,"/Data/Training_Data"))
+  }
   
   # If Data folder made, direct user to place there data in the folder.
   if (datdirmade == TRUE) 
@@ -36,6 +58,7 @@ createDirectories <- function(wrkdir = base_path) # Defaults as working director
     cat("Data folder created, please place .csv's in data folder\n")
     readline(prompt = "Press ENTER to continue")
   }
+    
 }
 
 # Set as default that the raw data doesn't exist, in case the script is used twice without clearing the environment.
@@ -48,7 +71,7 @@ if (dataset_name == "") {
 } else
 {
   # If
-  if(!file.exists(file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_Training.csv"))))
+  if(!file.exists(file.path(base_path, "Data", "Training_Data", paste0(dataset_name, "_Training.csv"))))
   {
     raw_data_exists <- FALSE
     print(paste0("Data set ", dataset_name, "_Training.csv", " Couldn't be found. Check your base path."))
@@ -249,6 +272,43 @@ readData <- function(wrkdir = base_path) {
 
 # All Generate Feature Functions ------------------------------------------
 
+  getFeatureInputs <- function() {
+    repeat {
+      sample_rate <- readline("Please enter your sample rate in seconds: ")
+      if (grepl("^[1-9]\\d*$", sample_rate)) {
+        # Checks that the input is a whole integer.
+        sample_rate <- as.integer(sample_rate) # Convert back into an integer.
+        break
+      } else {
+        cat("Invalid input. Please enter a whole integer.")
+      }
+    }
+    repeat {
+      overlap_percent <- readline("Please enter your window overlap percentage (i.e. 50): ")
+      if (grepl("^[1-9]\\d*$", overlap_percent)) {
+        # Checks that the input is a whole integer.)
+        overlap_percent <- as.integer(overlap_percent)
+        break
+      } else {
+        cat("Invalid input. Please enter a whole integer")
+      }
+    }
+    repeat {
+      window_length <- readline("Please enter your window length in seconds: ")
+      if (grepl("^[1-9]\\d*$", window_length)) {
+        # Checks that the input is a whole integer.)
+        window_length <- as.integer(window_length)
+        break
+      } else {
+        cat("Invalid input. Please enter a whole integer")
+      }
+    }
+    feature_settings <- c("Sample Rate" = sample_rate,
+                          "Overlap Percentage" = overlap_percent,
+                          "Window Length" = window_length)
+    return(feature_settings)
+  }
+  
   # Main function that calls the others
   generateFeatures <- function(window_length, sample_rate, overlap_percent, raw_data, features_type)
   {
@@ -477,3 +537,11 @@ readData <- function(wrkdir = base_path) {
     
     return(result)
   }
+  
+  
+
+# Hardcoded Variables -----------------------------------------------------
+
+  # Get feature data input prompt message
+# getfeatureinputprompt <- paste0("After reading the ", dataset_name, " Behaviour Report, you will now need to input a sample rate, overlap percentage and a window length to generate features.") 
+  
