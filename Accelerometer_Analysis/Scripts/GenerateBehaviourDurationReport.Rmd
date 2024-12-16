@@ -40,23 +40,49 @@ training_data <- fread(file.path(base_path, "Data", "Training_Data", paste0(data
 
 ```
 
-## Behaviour Classification of Individuals
+# Behaviour Classification of Individuals
 
 ### The data used for this split is: `r dataset_name`
 <br>
 Below is a graph of all individuals classed by behaviours in minutes.
 The point of this plot is to use it to determine what your ideal window length is, which will be used to generate statistical and time series features.
 
-### How to use:
+## Using this report to generate features:
 Window lengths are used to condense multiple observations into a single row of data.
 
+### Features:
+Generating features is a process of taking variables within multiple rows of a dataframe and generating additional variables in a long column for use in statistical analysis. To generate time and statistical features within accelerometer data we require:
+<ul>
+<li>The sample rate of the accelerometer (in seconds) used in the study</li>
+<li>The overlap percentage of our windows.</li>
+<li>The window length (in seconds).</li>
+</ul>
+<br>
+
+### Windows:
+Within timeseries data, windows are segments of the dataset that are used to generate rolling statistics. 
+<br><br>
+
+#### Overlap Percentage:
+The overlap percentage determines how much of the windows overlap. This can be beneficial for minimising the risk that behaviours are missed by a window length being placed between two behaviours. Increasing window overlap percentage will increase how many total windows are produced, this can increase how many data points you can analyse but also increases the computing time and power necessary to generate features, particularly within large datasets. Some studies (cite) indicate that little value is to be gained from increasing your overlap percentage above 50%.
+<br>
+If you are unsure, set your overlap percentage to 50%.
+<br><br>
+
+#### Window Length:
+Larger window lengths can increase your chance of capturing multiple behaviours within a single feature. Shorter lengths decrease your chances of capturing entire behaviours. As a general rule, you should set your window length to be the same as the smallest of your all behaviours lower-quantiles. This will ensure your likelihood of…
+<br>
+For example, if you have three behaviours named: Jumping, Turning and Sitting, with lower quantile duration in seconds of: 2, 4 and 30 respectfully, you would be best to select a window length of two seconds, based on the duration of Jumping. However you may want to base your window length off of your shortest median behaviour length instead for example. The plot and tables below include information on all of these numbers to help you make this decision.
+<br><br>
+
+<h2 style="text-align: center;">Behaviour Duration by Activity</h2>
 ```{r plot data volume, fig.height=8, fig.width = 10, dpi = 600, out.width="100%", out.height="100%", echo = FALSE}
   # Get the Behaviour duration plot and the behaviour names of the minimum
   printer <- plotBehaviourDuration(data = training_data, sample_rate = sample_rate, inc_outliers = inc_outlier_choice)
   # Draw the plot on the report
   printer[[7]]
   # Draw the dataframe of summary data
-  #### Add a better formatted caption to the tabe.
+  #### Add a better formatted caption to the table.
   kable(printer[[8]], caption = "Summary of Activity Durations") %>% 
     kable_styling(
       bootstrap_options = c("basic","hover"),
