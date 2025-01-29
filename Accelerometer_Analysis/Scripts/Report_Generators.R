@@ -7,6 +7,7 @@ generateBD_Report <- function(base_path, dataset_name, sample_rate) {
   output_file <- paste0(dataset_name, "_Behaviour_Duration_Report.html")
   
   # Knit the GenerateBehaviourDurationReport.Rmd file as an HTML report
+  # start <- Sys.time()
   rmarkdown::render(
     # Input file that we are going to render
     input = file.path(base_path, "Scripts", "GenerateBehaviourDurationReport.Rmd"),
@@ -22,6 +23,7 @@ generateBD_Report <- function(base_path, dataset_name, sample_rate) {
       sample_rate = sample_rate
     )
   )
+  # print(paste("render: ", Sys.time() - start))
   # Write success message w/ path
   message(paste0("Exploration report saved to: ",base_path, "Outputs"))
 }

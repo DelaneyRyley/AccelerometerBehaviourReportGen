@@ -1,9 +1,27 @@
 
 
+
+### Function description example
+#' This is the name of the function 
+#' Here's a description for it
+#' @param variable here is an input and what it means
+#' @param another this is another important variable we input
+#' @return this is what the function is going to do
+#'  \item one of the things that will happen
+#'  \item or a value that will be returned
+#' example: createDirectories
+
 # Basic Functionality ---------------------------------------------------------
-# Creates all the necessary folders based on working directories
+
+ 
+
 createDirectories <- function(wrkdir = base_path) # Defaults as working directory if not specified
 {
+  # Checks if the 'Data' and 'Outputs' folders for the main script to run exists and if it doesn't creates them
+  
+  #' @param wrkdir This is the root directory that the script checks from
+  #' @return Tells the user that the folders have been created or creates them and then prompts the user to add their data to the 'data' folder.
+  
   datdirmade <- FALSE
   # Check if Data folder exists
   print("Checking if Data folder exists...")
@@ -30,8 +48,6 @@ createDirectories <- function(wrkdir = base_path) # Defaults as working director
     print("Creating Outputs folder.")
     dir.create(paste0(wrkdir,"/Outputs"))
   }
-
-# Create directories that don't exist -------------------------------------
 
   # Create any directories that don't already exist
   if(!dir.exists(paste0(wrkdir, "/Data/Data")))
@@ -62,46 +78,53 @@ createDirectories <- function(wrkdir = base_path) # Defaults as working director
 }
 
 # Set as default that the raw data doesn't exist, in case the script is used twice without clearing the environment.
-loadData <- function() 
+
+loadTrainingData <- function(data = dataset_name) 
 {
-raw_data_exists <- FALSE
+  #' Attempts to load in the training data as a dataframe
+  #' @param data the dataset name used. By default, uses the dataset from Main.R
+  #' @return Loads the training data from the 'Training_Data' folder and returns it to the user.
+  #'  \training_data Data frame of the training data.
 
-if (dataset_name == "") {
-  print("Dataset defined as blank.")
-} else
-{
-  # If
-  if(!file.exists(file.path(base_path, "Data", "Training_Data", paste0(dataset_name, "_Training.csv"))))
+  # Sets that raw_data exists to false in case the user runs the script twice without clearing the environment.
+  raw_data_exists <- FALSE
+  
+  # Check that data isn't blank.
+  if (data == "") {
+    print("Dataset defined as blank.")
+  } else
   {
-    raw_data_exists <- FALSE
-    print(paste0("Data set ", dataset_name, "_Training.csv", " Couldn't be found. Check your base path."))
+    # Check that the file exists, it not, notify the user.
+    if(!file.exists(file.path(base_path, "Data", "Training_Data", paste0(data, "_Training.csv"))))
+    {
+      raw_data_exists <- FALSE
+      print(paste0("Data set ", data, "_Training.csv", " Couldn't be found. Check your base path."))
+    }
+    # Else, return training data as dataframe.
+    else
+    {
+      raw_data_exists <- TRUE
+      
+      training_data <- fread(file.path(base_path, "Data", "Training_Data", paste0(data, "_Training.csv")))
+      return(training_data)
+    }
   }
-  else
-  {
-    raw_data_exists <- TRUE
-  }
-}
 }
 
-# Load all data files into a list and select which to use.
-readData <- function(wrkdir = base_path) {
-  
-  # Add all .csv files from Data folder into a single object
-  csv_names <<- list.files(paste0(wrkdir,"/Data/Modified_Data"), pattern = "\\.csv$", full.names = TRUE)
-
-  # Get just the names of the files.
-  datanames <<- lapply(csv_names, basename)
-  
-  # Get the user to choose which dataset to use (based on Datanames)
-  
-  # Select and set the dataset being used based on csv_names
-}
 
 # Plots -------------------------------------------------------------------
 
 # Function for plotting the volume (in minutes) of behaviour per individual
   plotActivityByID <- function(data, frequency) 
   {
+    #' Here's a description for it
+    #' @param variable here is an input and what it means
+    #' @param another this is another important variable we input
+    #' @return this is what the function is going to do
+    #'  \item one of the things that will happen
+    #'  \item or a value that will be returned
+ 
+    
     my_colours <- generate_random_colors(length(unique(data$ID)))
     # Summarise into a table
     labelledDataSummary <- data %>%
@@ -136,8 +159,18 @@ readData <- function(wrkdir = base_path) {
   }
   
   # Plot the behaviour duration (i.e. sleep for 6 hours). Uses modified data
-  plotBehaviourDuration <- function(data, sample_rate, inc_outliers = FALSE)
+  plotBehaviourDuration <- function(data, sample_rate = sample_rate, inc_outliers = FALSE)
   {
+    #' Plots a box and whisker plot of  behaviour durations by behaviour
+    #' -i.e. Sleep 6 hours- using modified data
+
+    #' @param data The data used, should be the modified data.
+    #' @param sample_rate The sample rate of accelerometer, by default uses the sample rate of the data set.
+    #' @param inc_outliers Determines whether or not to include outliers within the plot.
+    #' @return Returns a ggPlot of the behaviour duration times 
+
+    
+     
     summary <- data %>%
       arrange(ID) %>%            # Sort by ID (not time because multiple trials in dog data)
       group_by(ID) %>%      
@@ -242,28 +275,13 @@ readData <- function(wrkdir = base_path) {
     return(duration_report_combined)
   }
   
-  # load in the raw data and cleaned feature data (e.g., remove redundant and NA features)
-  loadDataTables <- function(dataset_name)
-  {
-  if (dataset_name == "") {
-    stop("Error: 'dataset_name' parameter is empty. Data set not found.")
-  } else {
-    tryCatch({
-      # Load the raw data
-      raw_data <- fread(file.path(base_path, "Data", "Other_data", paste0(dataset_name, "_Training.csv")))
-      
-      # Load the feature data
-      feature_data <- fread(file.path(base_path, "Data", "Feature_data", paste0(dataset_name, "_other_feature_data.csv")))
-    }, error = function(e) {
-      message("Error: Can't find the nominated dataset. :")
-      # message("Error: Can't find the nominated dataset. :", e$message)
-      stop(e)
-    })
-        }
-  }
   
-  # Function for generating random colours
   generate_random_colors <- function(n) {
+    #' Generates a random number of colours for use by different plots
+    #' @param n input for the number of colours requested.
+    #' @return returns a list of character strings of different hexcodes.
+ 
+    
     # Generate random red, green and yellow values.
     colors <- rgb(runif(n), runif(n), runif(n))
     return(colors)
@@ -273,6 +291,13 @@ readData <- function(wrkdir = base_path) {
 # All Generate Feature Functions ------------------------------------------
 
   getFeatureInputs <- function() {
+    
+    #' Gets the user to input variables for generating the data features. The variables have to meet certain criteria to be inputted.
+    #' @return returns feature_settings as a list with titles
+    #'  \Sample Rate:  The sample rate per second of the accelerometer. Must be a whole integer.
+    #'  \Overlap Percentage: The percentage of overlap for windowed features. Must be a whole integer.
+    #'  \Window Length: The length of each window in seconds, and must be a whole integer)
+    
     repeat {
       sample_rate <- readline("Please enter your sample rate in seconds: ")
       if (grepl("^[1-9]\\d*$", sample_rate)) {
@@ -313,8 +338,7 @@ readData <- function(wrkdir = base_path) {
   # taken directly from my AnomalyDetection OCC work
   # functions first and then the code
   
-  # Code here ---------------------------------------------------------------
-  generateFeatureData <- function()
+  generateFeatureData <- function() {
     if (file.exists(file.path(base_path, "Data", "Feature_Data", paste0(dataset_name, "_Other_Feature_Data.csv")))) {
       feature_data_other <- fread(file.path(base_path, "Data", "Feature_Data", paste0(dataset_name, "_Other_Feature_Data.csv")))
     } else {
@@ -341,6 +365,7 @@ readData <- function(wrkdir = base_path) {
       ### return feature data other
       return(feature_data_other)
     }
+  }
   
   # Main function that calls the others
   generateFeatures <- function(window_length, sample_rate, overlap_percent, raw_data, features_type)
@@ -571,6 +596,46 @@ readData <- function(wrkdir = base_path) {
     return(result)
   }
   
+  # Split out test data -----------------------------------------------------
+  
+  splitTestData <- function(modified_data)
+  {
+    
+    if
+    (file.exists(file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_Test.csv"))))
+    {
+      fread(file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_Test.csv")))
+    } else
+      
+    {
+      
+      # Read in the raw data
+      modified_data <- fread(file.path(base_path, "Data", "Modified_Data", paste0(dataset_name, "_Modified.csv")))
+      
+      # How many individuals are in our data
+      individuals <- unique(modified_data$ID)
+      
+      # Select 20% of them to be in the test set.
+      # Calculate number of individuals within the test set
+      # Calculated by randomly taking 20% of the values from individuals rounded.
+      test_individuals <- sample(individuals, round(length(individuals)*0.2, 0))
+      # We are going to create a new dataframe out of just our test individuals
+      test_data <- modified_data %>% 
+        filter(ID %in% test_individuals)
+      
+      # The remainder will be in the training set, used by calculating the difference between the test individuals and the remaining individuals
+      training_data <- modified_data %>% 
+        filter(!ID %in% test_individuals)
+      
+      # Save both of these to the test data folder.
+      # Save the test data to the test data folder
+      fwrite(test_data, file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_Test.csv")))
+      # Save the training/ validation data to the "other" data folder
+      fwrite(training_data, file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_Training.csv")))
+    }
+    
+  }
+  
   
 
 # Hardcoded Variables -----------------------------------------------------
@@ -578,3 +643,18 @@ readData <- function(wrkdir = base_path) {
   # Get feature data input prompt message
 # getfeatureinputprompt <- paste0("After reading the ", dataset_name, " Behaviour Report, you will now need to input a sample rate, overlap percentage and a window length to generate features.") 
   
+  
+  ### Unfinished Functions --------------------------------------
+  # Load all study data files into a list and select which to use.
+  readData <- function(wrkdir = base_path) {
+    
+    # Add all .csv files from Data folder into a single object
+    csv_names <<- list.files(paste0(wrkdir,"/Data/Modified_Data"), pattern = "\\.csv$", full.names = TRUE)
+    
+    # Get just the names of the files.
+    datanames <<- lapply(csv_names, basename)
+    
+    # Get the user to choose which dataset to use (based on Datanames)
+    
+    # Select and set the dataset being used based on csv_names
+  }

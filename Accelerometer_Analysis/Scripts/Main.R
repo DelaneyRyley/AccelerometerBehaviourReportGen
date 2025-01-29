@@ -16,20 +16,29 @@ library(tidyverse)
 library(kableExtra)
 library(ggpubr) # for retrieving the legend in one of my plots
 # Source all of our functions
-source(file.path("Scripts/Functions.R"))
+#' Edit: Can be done using p_load() for more concise code
 
 # Hardcoded variables -----------------------------------------------------
 
-  # Input the dataset name from the list of dictionaries in Species Settings
-  dataset_name <- "Studd_Squirrel"
-  
-  # Set the base path to our directory we are working from.
-    # base_path <- "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis"
-  base_path <- getwd()
+# Input the dataset name from the list of dictionaries in Species Settings
+dataset_name <- "Studd_Squirrel"
+
+# Set the base path to our directory we are working from.
+# I've chosen to do this via the working directory but you can set it manually as well.
+# base_path <- "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis"
+base_path <- getwd()
+
+# Source all functions we are using, I've decided to source them all at once because every function within the script is used at some point. 
+source(file.path("Scripts/Functions.R")) # Source all of the functions we are using
+#' Resolved: Edit: This line only works if using the script as a part of the R Projects
+#' Resolved: Maybe just bump it down a little until the basepath has been defined
+
+
   #Source Report Generator Functions
   source(file.path(base_path, "Scripts", "Report_Generators.R"))
+  #' Edit: Might be nice to move this a little further down until after the hardcodes
   
-  # Here we created a dictionary that that's a list of variables for each species: sample rate and overlap
+  # Here we created a dictionary that's a list of variables for each species: sample rate, overlap and windows percentage.
   species_settings <- list(Studd_Squirrel = list(sample_rate = 1, overlap_percent = 20, window_length = 10),
                            Seal = list(sample_rate = 100, overlap_percent = 20, window_length = 10))
   
@@ -46,15 +55,29 @@ source(file.path("Scripts/Functions.R"))
 
 
 # Create Directories ----------------------------------------------------------
+  #' Edit: format for documentation written in function folder
   createDirectories()
+  #' Edit: This is a scary function because I don't know what it will do
+  #' Might be good to add something more explicit to the call - like the structure you are going to generate
+  #' Also note that this particular call doesn't generate all the folders we need. Which is hard to discern because we don't have an overall view
+  #' When all the functionality is in the function, the function is not reusable / generalisable
   
-# Read in Data
-  readData()
- # In a separate script titled "ModifyData" we have edited the data and rewritten it.
-
+  folder_structure <- list("Data" = c("Raw_Data" = list("Raw_Data", 
+                                                        "Modified_Data"), 
+                                      "Feature_Data" = list("Training_Data", 
+                                                            "Test_Data")),
+                           "Outputs" = c("Reports", 
+                                         "Plots"),
+                           "Results" = c("Analysed_Data", "Performance_Results")
+                          )
+  #' I know it's messy and ugly compared to your nice work... not sure best way to do it
+  
   # Split test data out and load other data ---------------------------------
   source(file.path(base_path, "Scripts", "SplitTestData.R"))
-
+  #' Edit: added file = to file.path to account for strange paths (one-drive is weird)
+  #' Edit: folder 'Other_Data' didn't exist for me
+  #' Edit: Note that is it saving the training data to the 'Other_Data' folder
+  
 
 # Create Box-Plot Graph --------------------------------------------------------
   # After splitting the data create a box-plot of the average behaviour times per individual.
@@ -97,16 +120,21 @@ source(file.path("Scripts/Functions.R"))
           stop()
         })
     }
-    
+    #' Edit: is trying to pull the training data from 'Training_Data' folder (line 39) but it isn't there - it's in 'Other_Data'
+    #' Edit: I manually copied the data over
 
   
 # Open Behaviour Report 
   browseURL(paste0("Outputs/", dataset_name, "_Behaviour_Duration_Report.html"))
-
+#' LOVE this!! Didn't even know it was possible and will integrate into all of my code now!
 
 # Generate features for training data -------------------------------------
   # Gets the inputs for the sample rate, overlap percentage and window length.
-  feature_settings <- getFeatureInputs()
+  # feature_settings <- getFeatureInputs()
+  
+  #' this is completely perfect! Great flow through and logical usability
+  
+  
 # currently set to only process a very small number of windows
 generateFeatureData()
 
