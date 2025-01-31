@@ -1,20 +1,10 @@
+### Header --------------------------------------------------------------------
+# A script for functions used for generating Reports
+# Created by Ryley Delaney
+# Nov 2024
 
-
-
-### Function description example
-#' This is the name of the function 
-#' Here's a description for it
-#' @param variable here is an input and what it means
-#' @param another this is another important variable we input
-#' @return this is what the function is going to do
-#'  \item one of the things that will happen
-#'  \item or a value that will be returned
-#' example: createDirectories
 
 # Basic Functionality ---------------------------------------------------------
-
- 
-
 createDirectories <- function(wrkdir = base_path, structure = folder_structure) # Defaults as working directory if not specified
 {
   # Checks if the 'Data' and 'Outputs' folders needed for the main script to run exist and if they don't creates them
@@ -144,9 +134,11 @@ createDirectories <- function(wrkdir = base_path, structure = folder_structure) 
       # [8] A DF of all the stats: Activities, Median, Maximum, Minimum.
       "Duration Stats" = duration_stats %>% 
         setNames(c("Behaviour","Mean", "Minimum", "Median",
-                   "Maximum", "Lower Quantile")),
+                   "Maximum", "Lower Quantile")) ,
       # [9] Number of individuals 
-      "Individuals" = length(unique*data$ID)
+      "Individual_total" = length(unique(data$ID)),
+      # [10] Number of behaviours
+      "Behaviour_total" = length(unique(data$Activity))
       )
     return(duration_report_combined)
   }

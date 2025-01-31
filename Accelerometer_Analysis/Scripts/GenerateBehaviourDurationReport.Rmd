@@ -93,6 +93,13 @@ For example, if you have three behaviours named: Jumping, Turning and Sitting, w
 <br><br>
 
 <!-- Prints list of behaviours with the shortest durations followed by how long the shortest behaviour is   -->
+### Summary
+`r paste0("The <b>", dataset_name, " </b> dataset contains a total of: <br>")`
+<ul>
+`r paste0("<li> <b>", printer[[9]], "</b> identified individuals.</li>")`
+`r paste0("<li> <b>", printer[[10]], " </b> identified behaviours.</li>")`
+</ul>
+
 #### Minimum Behaviour Duration:
 `r paste0("Your behaviour(s) with the shortest minimum duration are: <br> ","<b>", paste(printer[[1]], collapse = ", "), "</b>")`
 `r paste0("with a duration of: ", (printer[[2]]), " seconds", "<br><br>")`
