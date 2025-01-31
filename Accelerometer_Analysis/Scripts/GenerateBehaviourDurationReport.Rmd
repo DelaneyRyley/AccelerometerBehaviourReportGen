@@ -68,7 +68,7 @@ If you are unsure, set your overlap percentage to 50%.
 <br><br>
 
 #### Window Length:
-Larger window lengths can increase your chance of capturing multiple behaviours within a single feature. Shorter lengths decrease your chances of capturing entire behaviours. As a general rule, you should set your window length to be the same as the smallest of your all behaviours lower-quantiles. This will ensure your likelihood of…
+Larger window lengths can increase your chance of capturing multiple behaviours within a single feature. Shorter lengths decrease your chances of capturing entire behaviours. As a general rule, you should set your window length to be the same as the smallest of your all behaviours lower-quantiles. This will ensure your likelihood of capturing the entirety of a single behaviour and it not being confused with another.
 <br>
 For example, if you have three behaviours named: Jumping, Turning and Sitting, with lower quantile duration in seconds of: 2, 4 and 30 respectfully, you would be best to select a window length of two seconds, based on the duration of Jumping. However you may want to base your window length off of your shortest median behaviour length instead for example. The plot and tables below include information on all of these numbers to help you make this decision.
 <br><br>
@@ -102,6 +102,7 @@ For example, if you have three behaviours named: Jumping, Turning and Sitting, w
 `r paste0("Your behaviour(s) with the shortest median duration are: <br> ","<b>", paste(printer[[3]], collapse = ", "), "</b>")`
 `r paste0("with a duration of: ", (printer[[4]]), " seconds", "<br><br>")`
 
+<!-- Prints list of behaviours with the smallest lower- duration in seconds followed by how long the shortest behavior is -->
 #### Lower-Quantile Behaviour Duration:
 `r paste0("Your behaviour(s) with the smallest lower quantiles are: <br> ","<b>", paste(printer[[5]], collapse = ", "), "</b>")`
 `r paste0("with a duration of: ", (printer[[6]]), " seconds")`
