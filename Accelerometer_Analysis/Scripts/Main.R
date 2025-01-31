@@ -5,18 +5,8 @@
 # Main Script for Sensitivity Analysis ------------------------------------
 
 # Install packages and Source Functions -------------------------------------------------------
-library(data.table)
-library(tidyverse)
-library(tsfeatures)
-library(umap)
-library(caret)
-library(data.table)
-library(purrr)
-library(tidyverse)
-library(kableExtra)
-library(ggpubr) # for retrieving the legend in one of my plots
-# Source all of our functions
-#' Edit: Can be done using p_load() for more concise code
+library(pacman)
+p_load(data.table, tidyverse, kableExtra)
 
 # Hardcoded variables -----------------------------------------------------
 
@@ -30,7 +20,7 @@ folder_structure <- c("Data/Data", "Data/Test_Data", "Data/Training_Data", "Outp
 # base_path <- "C:/Users/user/Desktop/Oakleigh_Project/AccelerometerData/Accelerometer_Analysis"
 base_path <- getwd()
 
-# Source all functions we are using, I've decided to source them all at once because every function within the script is used at some point. 
+# Source all functions we are using, I've decided to source them all at once instead of as used because atm every function within the script is used at some point. 
 source(file.path("Scripts/Functions.R")) # Source all of the functions we are using
 
   # Here we created a dictionary that's a list of variables for each species: sample rate, overlap and windows percentage.
