@@ -69,13 +69,19 @@ createDirectories <- function(wrkdir = base_path, structure = folder_structure) 
       )
     
     # plot that
-    duration_plot <<- ggplot(summary,
+    duration_plot <- ggplot(summary,
                             aes(x = Activity,
                                 y = as.numeric(duration_sec))) +
-      geom_boxplot(aes(color = Activity), # Use color to distinguish activities
-                   outliers = inc_outliers)  # Remove outliers from boxplot based on input
+      
+      geom_boxplot(# Use color to distinguish activities
+                   aes(colour = Activity),
+                   outlier.color = NULL,
+                   linewidth = 1,
+                   outlier.size = 2,
+                   outliers = inc_outliers # Remove outliers from boxplot based on input
+                  )  
     # Creating a variable of the box-plot data
-    duration_plot_data <<- ggplot_build(duration_plot)$data[[1]]
+    duration_plot_data <- ggplot_build(duration_plot)$data[[1]]
     
     # Create variables for the upper and lower scales with and without outliers.
     # With outliers
@@ -101,12 +107,7 @@ createDirectories <- function(wrkdir = base_path, structure = folder_structure) 
     }
     
     duration_plot <- duration_plot +
-      theme(
-        legend.position = "none",             # Remove legend
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),  # Rotate x-axis labels 90 degrees
-        panel.grid = element_blank(),         # Remove grid lines
-        panel.border = element_rect(color = "black", fill = NA)  # Add black border around the plot
-      ) +
+      Theme_delaney() +
       labs(
         y = "Duration (seconds)",
         x = "Activities"
@@ -146,17 +147,6 @@ createDirectories <- function(wrkdir = base_path, structure = folder_structure) 
     return(duration_report_combined)
   }
   
-  
-  generate_random_colors <- function(n) {
-    #' Generates a random number of colours for use by different plots
-    #' @param n input for the number of colours requested.
-    #' @return returns a list of character strings of different hexcodes.
- 
-    
-    # Generate random red, green and yellow values.
-    colors <- rgb(runif(n), runif(n), runif(n))
-    return(colors)
-  }
   
   # Data Manipulation --------------
   
@@ -246,7 +236,6 @@ createDirectories <- function(wrkdir = base_path, structure = folder_structure) 
     output_file <- paste0(dataset_name, "_Behaviour_Duration_Report.html")
     
     # Knit the GenerateBehaviourDurationReport.Rmd file as an HTML report
-    # start <- Sys.time()
     rmarkdown::render(
       # Input file that we are going to render
       input = file.path(base_path, "Scripts", "GenerateBehaviourDurationReport.Rmd"),
@@ -262,7 +251,6 @@ createDirectories <- function(wrkdir = base_path, structure = folder_structure) 
         sample_rate = sample_rate
       )
     )
-    # print(paste("render: ", Sys.time() - start))
     # Write success message w/ path
     message(paste0("Exploration report saved to: ",base_path, "Outputs"))
   }

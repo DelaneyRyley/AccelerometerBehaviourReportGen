@@ -67,38 +67,37 @@ If you are unsure, set your overlap percentage to 50%.
 <br><br>
 
 #### Window Length:
-Larger window lengths can increase your chance of capturing multiple behaviours within a single feature. Shorter lengths decrease your chances of capturing entire behaviours. As a general rule, you should set your window length to be the same as the smallest of your all behaviours lower-quantiles. This will ensure your likelihood of capturing the entirety of a single behaviour and it not being confused with another.
+Larger window lengths can increase your chance of capturing multiple behaviours within a single feature. Shorter lengths decrease your chances of capturing entire behaviours. As a general rule, you should set your window length to be the same as the smallest of your all behaviours lower-quantiles. You may however want to select based on the the smallest median behaviour duration instead. This will ensure your likelihood of capturing the entirety of a single behaviour and it not being confused with another.
 <br>
 For example, if you have three behaviours named: Jumping, Turning and Sitting, with lower quantile duration in seconds of: 2, 4 and 30 respectfully, you would be best to select a window length of two seconds, based on the duration of Jumping. However you may want to base your window length off of your shortest median behaviour length instead for example. The plot and tables below include information on all of these numbers to help you make this decision.
 <br><br>
 
 <h2 style="text-align: center;">Behaviour Duration by Activity</h2>
 <!-- Generate all of the behaviour duration data and plot the behaviour duration plot -->
-```{r Create Plot Data, fig.height=8, fig.width = 10, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
+```{r Create Plot Data, fig.height=8, fig.width = 14, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
   # Get the Behaviour duration plot and the behaviour names of the minimum
   printer <- plotBehaviourDuration(data = training_data, sample_rate = sample_rate, inc_outliers = inc_outlier_choice)
 ```
 <!-- I've broken these two chunks up so I can better investigate what causes the report generation to be so slow. -->
 <!-- See How long it takes to draw the behaviour plot -->
-```{r Draw Behaviour Plot, fig.height=8, fig.width = 10, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
+```{r Draw Behaviour Plot, fig.height=10, fig.width = 14, dpi = 100, out.width="100%", out.height="auto", fig.align='center', echo = FALSE}
   # Draw the plot on the report
   printer[[7]]
 ```
+<br>
 <p style = "text-align: center;">
 `r paste0("<b>Figure 1:</b> Behaviour duration by activities in seconds. (N = ", printer[[9]], ")"  )`
 </p>
 <!-- Add a break between the plot and the data table -->
 <br><br><br>
 <!-- Plot the behaviour data table. -->
-```{r draw data table, fig.height=8, fig.width = 10, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
+```{r draw data table, fig.height=8, fig.width = 14, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
   # Draw the dataframe of summary data
-  #### Add a better formatted caption to the table.
   kable(printer[[8]]) %>% 
     kable_styling(
       bootstrap_options = c("basic","hover"),
       position = "center",
       row_label_position = "center"
-      #fixed_thead = c(enabled = TRUE, background = "firebrick") ##################
     )
 ```
 
@@ -125,4 +124,13 @@ For example, if you have three behaviours named: Jumping, Turning and Sitting, w
 <!-- Prints list of behaviours with the smallest lower- duration in seconds followed by how long the shortest behavior is -->
 #### Lower-Quantile Behaviour Duration:
 `r paste0("Your behaviour(s) with the smallest lower quantiles are: <br> ","<b>", paste(printer[[5]], collapse = ", "), "</b>")`
-`r paste0("with a duration of: ", (printer[[6]]), " seconds")`
+`r paste0("with a duration of: ", (printer[[6]]), " seconds", "<br><br>")`
+
+#### Recommendations:
+`r paste0("Based on the <b>", dataset_name, "</b> dataset, it is recommended that you set your window length to be either:")`
+<ul>
+`r paste0("<li> <b>", printer[[6]], " seconds </b> based on your shortest lower quartile behaviour durations</li>")`
+`r paste0("<li> <b>", printer[[4]], " seconds</b> based on your shortest median behaviour durations</li>")`
+</ul>
+
+
