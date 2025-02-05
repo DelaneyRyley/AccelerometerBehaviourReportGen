@@ -13,7 +13,6 @@ params:
 ---
 
 ```{r Setup, include=FALSE}
-
 # Set the variables of our other chunks
 knitr::opts_chunk$set(
   # Set so that for all of our plots, it won't include the code.
@@ -74,25 +73,38 @@ For example, if you have three behaviours named: Jumping, Turning and Sitting, w
 <br><br>
 
 <h2 style="text-align: center;">Behaviour Duration by Activity</h2>
-```{r plot data volume, fig.height=8, fig.width = 10, dpi = 600, out.width="100%", out.height="100%", echo = FALSE}
+<!-- Generate all of the behaviour duration data and plot the behaviour duration plot -->
+```{r Create Plot Data, fig.height=8, fig.width = 10, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
   # Get the Behaviour duration plot and the behaviour names of the minimum
   printer <- plotBehaviourDuration(data = training_data, sample_rate = sample_rate, inc_outliers = inc_outlier_choice)
+```
+<!-- I've broken these two chunks up so I can better investigate what causes the report generation to be so slow. -->
+<!-- See How long it takes to draw the behaviour plot -->
+```{r Draw Behaviour Plot, fig.height=8, fig.width = 10, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
+  
   # Draw the plot on the report
   printer[[7]]
+# Finish 'draw behaviour plot' time check)
+```
+<!-- Add a break between the plot and the data table -->
+<br><br><br>
+<!-- Plot the behaviour data table. -->
+```{r draw data table, fig.height=8, fig.width = 10, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
   # Draw the dataframe of summary data
   #### Add a better formatted caption to the table.
-  kable(printer[[8]], caption = "Summary of Activity Durations") %>% 
+  kable(printer[[8]]) %>% 
     kable_styling(
       bootstrap_options = c("basic","hover"),
       position = "center",
       row_label_position = "center"
-      #fixed_thead = c(enabled = TRUE, background = "firebrick")
+      #fixed_thead = c(enabled = TRUE, background = "firebrick") ##################
     )
 ```
+
 <!-- Add a break in lines before header-->
 <br><br>
 
-<!-- Prints list of behaviours with the shortest durations followed by how long the shortest behaviour is   -->
+<!-- Prints list of behaviours with the shortest duration followed by how long the shortest behaviour is   -->
 ### Summary
 `r paste0("The <b>", dataset_name, " </b> dataset contains a total of: <br>")`
 <ul>
@@ -113,5 +125,3 @@ For example, if you have three behaviours named: Jumping, Turning and Sitting, w
 #### Lower-Quantile Behaviour Duration:
 `r paste0("Your behaviour(s) with the smallest lower quantiles are: <br> ","<b>", paste(printer[[5]], collapse = ", "), "</b>")`
 `r paste0("with a duration of: ", (printer[[6]]), " seconds")`
-
-

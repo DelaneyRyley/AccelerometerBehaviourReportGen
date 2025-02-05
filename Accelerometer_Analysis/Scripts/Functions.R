@@ -7,9 +7,11 @@
 # Basic Functionality ---------------------------------------------------------
 createDirectories <- function(wrkdir = base_path, structure = folder_structure) # Defaults as working directory if not specified
 {
-  # Checks if the 'Data' and 'Outputs' folders needed for the main script to run exist and if they don't creates them
+  # Checks if the 'Data' and 'Outputs' folders needed for the main script to
+  # run exist and if they don't creates them.
   #' @param wrkdir This is the root directory that the script checks from
-  #' @return Tells the user that the folders have been created or creates them and then prompts the user to add their data to the 'data' folder.
+  #' @return Tells the user that the folders have been created or creates them 
+  #' and then prompts the user to add their data to the 'data' folder.
   
   for (n in structure)
   {
@@ -25,13 +27,14 @@ createDirectories <- function(wrkdir = base_path, structure = folder_structure) 
   # Plot the behaviour duration (i.e. sleep for 6 hours). Uses modified data
   plotBehaviourDuration <- function(data, sample_rate = sample_rate, inc_outliers = FALSE)
   {
-    #' Plots a box and whisker plot of  behaviour durations by behaviour
-    #' -i.e. Sleep 6 hours- using modified data
-
+    #' Plots a box and whisker plot of  behaviour duration by behaviour
+    #' -i.e. Sleep 6 hours- using modified data.
     #' @param data The data used, should be the modified data.
-    #' @param sample_rate The sample rate of accelerometer, by default uses the sample rate of the data set.
-    #' @param inc_outliers Determines whether or not to include outliers within the plot.
-    #' @return Returns a ggPlot of the behaviour duration times 
+    #' @param sample_rate The sample rate of accelerometer, by default uses
+    #' the sample rate of the data set.
+    #' @param inc_outliers Determines whether or not to include outliers
+    #' within the plot.
+    #' @return Returns a ggPlot of the behaviour duration times. 
 
     
      
