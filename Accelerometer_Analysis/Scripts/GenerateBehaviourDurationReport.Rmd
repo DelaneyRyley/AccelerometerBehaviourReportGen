@@ -81,11 +81,12 @@ For example, if you have three behaviours named: Jumping, Turning and Sitting, w
 <!-- I've broken these two chunks up so I can better investigate what causes the report generation to be so slow. -->
 <!-- See How long it takes to draw the behaviour plot -->
 ```{r Draw Behaviour Plot, fig.height=8, fig.width = 10, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
-  
   # Draw the plot on the report
   printer[[7]]
-# Finish 'draw behaviour plot' time check)
 ```
+<p style = "text-align: center;">
+`r paste0("<b>Figure 1:</b> Behaviour duration by activities in seconds. (N = ", printer[[9]], ")"  )`
+</p>
 <!-- Add a break between the plot and the data table -->
 <br><br><br>
 <!-- Plot the behaviour data table. -->
