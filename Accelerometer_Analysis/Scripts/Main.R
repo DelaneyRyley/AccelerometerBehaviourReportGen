@@ -21,11 +21,12 @@ folder_structure <- c("Data/Data", "Data/Test_Data", "Data/Training_Data", "Outp
 base_path <- getwd()
 
 # Source all functions we are using, I've decided to source them all at once instead of as used because atm every function within the script is used at some point. 
-source(file.path("Scripts/Functions.R")) # Source all of the functions we are using
-# Source the theme we're using
+source(file.path("Scripts/Functions.R"))
+# Source the theme we're using for the behaviour duration plot.
 source(file.path("Scripts/Theme_BehaveWhiskers.R"))
 
   # Here we created a dictionary that's a list of variables for each species: sample rate, overlap and windows percentage.
+  # This allows you to easy switch between datasets when using multiple from the same folder.
   species_settings <- list(Studd_Squirrel = list(sample_rate = 1, overlap_percent = 20, window_length = 10),
                            Seal = list(sample_rate = 100, overlap_percent = 20, window_length = 10))
   
@@ -42,7 +43,8 @@ source(file.path("Scripts/Theme_BehaveWhiskers.R"))
 
 
 # Create Directories ----------------------------------------------------------
-  # Check the current folder structure and create any folders that are missing.
+  # Check the current folder structure variable above and creates any folders that are missing.
+  # Doesn't edit or remove any additional folders.
   createDirectories(base_path, folder_structure)
   
 # Split test data out and load other data ---------------------------------
