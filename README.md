@@ -3,7 +3,7 @@ A HTML report generator of accelerometer data for pre-processing and determining
 Created by Ryley Delaney February 2025
 
 ## Table of Contents  
-- [What the Repository is for](#what-the-repository-is-for)
+- [Overview](#overview)
 - [Task Description](#task-description)
 - [Scripts](#scripts)
 - [Packages](#packages)
