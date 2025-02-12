@@ -362,6 +362,7 @@ February 2025</p>
 <ul>
 <li><a href="#what-the-repository-is-for">What the Repository is
 for</a></li>
+<li><a href="#task-description">Task Description</a></li>
 <li><a href="#scripts">Scripts</a></li>
 <li><a href="#packages">Packages</a></li>
 <li><a href="#setup">Setup</a></li>
@@ -372,15 +373,48 @@ for</a></li>
 </div>
 <div id="what-the-repository-is-for" class="section level2">
 <h2>What the Repository is for</h2>
-<p>This Repository contains scripts that allows the user to create a
-HTML document from accelerometer data that displays various information
-to help with feauture generation. The document contains some preliminary
+<p>
+This Repository contains scripts that allows the user to create a HTML
+document from accelerometer data that displays various information to
+help with feauture generation. The document contains some preliminary
 information about the dataset used and a series of plots and tables. It
 was created as a part of a volunteering project during my undergrad with
-a PhD student at the University of the Sunshine Coast. <br> An example
-report using Squirrel data from Studd(2019) can be viewed
-<a href="Assets/Report_Example.html">here</a></p>
+PhD candidate Oakley Wilson at the University of the Sunshine Coast.
+</p>
+You can view Oakleigh’s Github and her work on machine learning and
+accelerometry <a href="https://github.com/OakAlice"> here </a>
+</p>
+<p>
+An example report using Squirrel data from Studd (2019) can be viewed
+<a href="Assets/Report_Example.html">here</a>
+</p>
+<p>
+The example report is in HTML format and will need to be downloaded to
+be viewed properly if attempting to view from GitHub.
+</p>
 <p><br></p>
+</div>
+<div id="task-description" class="section level2">
+<h2>Task Description</h2>
+<p>
+Below is a brief summary of the task outlined to me by
+</p>
+<p>
+Animal-borne accelerometers collect high-frequency changes in
+acceleration, capturing patterns that can be linked to specific
+fine-scale behaviours. These patterns are used to train machine learning
+models that can identify what an animal is doing based on its movement.
+However, training these models requires converting the raw accelerometer
+data into machine-interpretable statistical ‘features.’ One key step in
+generating these features is determining the duration of behaviours that
+appear in the data. Using the provided code as a base, please develop an
+automated reporting system that can take accelerometer data and sample
+rate as inputs and generate a html report to A) visualise the existing
+data, and B ) suggest the optimal window length for feature generation.
+This system should require minimal user input and include clear
+explanations of how to interpret graphs and tables, as well as a
+description and reasoning for the ultimate recommendation.
+</p>
 </div>
 <div id="scripts" class="section level2">
 <h2>Scripts</h2>
@@ -390,8 +424,8 @@ AccelerometerAnalysis_Main.R
 </h4>
 The main script of the repository, loads all packages, sources all
 functions as well as the GenerateBehaviourReport.Rmd. Part of the script
-involves receiving inputs from the user on including outliers in the
-Behaviour Duration box plot. <br><br>
+involves seamlessly guiding inputs from the user on including outliers
+in the Behaviour Duration box plot. <br><br>
 <h4>
 Functions.R
 </h4>

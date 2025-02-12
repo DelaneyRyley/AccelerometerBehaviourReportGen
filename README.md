@@ -4,6 +4,7 @@ Created by Ryley Delaney February 2025
 
 ## Table of Contents  
 - [What the Repository is for](#what-the-repository-is-for)
+- [Task Description](#task-description)
 - [Scripts](#scripts)
 - [Packages](#packages)
 - [Setup](#setup) 
@@ -14,12 +15,18 @@ Created by Ryley Delaney February 2025
 
 
 ## What the Repository is for
-This Repository contains scripts that allows the user to create a HTML document from accelerometer data that displays various information to help with feauture generation. The document contains some preliminary information about the dataset used and a series of plots and tables. It was created as a part of a volunteering project during my undergrad with a PhD student at the University of the Sunshine Coast.
-<br>
-<p>An example report using Squirrel data from Studd(2019) can be viewed <a href="Assets/Report_Example.html">here</a></p>
+<p>This Repository contains scripts that allows the user to create a HTML document from accelerometer data that displays various information to help with feauture generation. The document contains some preliminary information about the dataset used and a series of plots and tables. It was created as a part of a volunteering project during my undergrad with PhD candidate Oakley Wilson at the University of the Sunshine Coast. </p>
+
+You can view Oakleigh's Github and her work on machine learning and accelerometry <a href="https://github.com/OakAlice"> here </a> </p>
+<p>You can view an example report using Squirrel data from Studd (2019) can be viewed <a href="Assets/Report_Example.html">here</a></p>
 <p> The example report is in HTML format and will need to be downloaded to be viewed properly if attempting to view from GitHub.</p>
 
 <br>
+
+## Task Description
+<p>Below is a brief summary of the task outlined to me by</p>
+<p> Animal-borne accelerometers collect high-frequency changes in acceleration, capturing patterns that can be linked to specific fine-scale behaviours. These patterns are used to train machine learning models that can identify what an animal is doing based on its movement. However, training these models requires converting the raw accelerometer data into machine-interpretable statistical 'features.' One key step in generating these features is determining the duration of behaviours that appear in the data.
+Using the provided code as a base, please develop an automated reporting system that can take accelerometer data and sample rate as inputs and generate a html report to A) visualise the existing data, and B ) suggest the optimal window length for feature generation. This system should require minimal user input and include clear explanations of how to interpret graphs and tables, as well as a description and reasoning for the ultimate recommendation.</p>
 
 ## Scripts
 <br>
