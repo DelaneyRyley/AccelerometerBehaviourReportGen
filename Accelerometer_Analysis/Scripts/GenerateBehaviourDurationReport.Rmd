@@ -33,7 +33,7 @@ knitr::opts_chunk$set(
 ```{r Load in Data, include = TRUE}
 
 # Attempt to load in the training data
-training_data <- loadTrainingData()
+training_data <<- loadTrainingData()
 
 ```
 
@@ -45,7 +45,17 @@ Below is a graph of all individuals classed by behaviours in minutes.
 The point of this plot is to use it to determine what your ideal window length is, which will be used to generate statistical and time series features.
 
 ## Using this report to generate features:
-Window lengths are used to condense multiple observations into a single row of data.
+Window lengths are used to condense multiple observations into a single row of data. 
+<br>
+
+## Visualising your data before processing:
+One of the more important and overlooked steps of processing data is visualising it for the purposes of determining if your behaviours are internally consistent compared to themselves and other behaviours.
+
+```{r Create Trace Figure Data, fig.height=8, fig.width = 14, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
+  # Plot an example of trace signalling.
+  printer <- plotTraceExamples(behaviours = unique(training_data$Activity),data = training_data, n_samples = 200, individuals = 2)
+  print(printer)
+```
 
 ### Features:
 Generating features is a process of taking variables within multiple rows of a dataframe and generating additional variables in a long column for use in statistical analysis. To generate time and statistical features within accelerometer data we require:

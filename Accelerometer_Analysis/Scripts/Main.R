@@ -23,7 +23,7 @@ base_path <- getwd()
 # Source all functions we are using, I've decided to source them all at once instead of as used because atm every function within the script is used at some point. 
 source(file.path("Scripts/Functions.R")) # Source all of the functions we are using
 # Source the theme we're using
-source(file.path("Scripts/Theme_Delaney.R"))
+source(file.path("Scripts/Theme_BehaveWhiskers.R"))
 
   # Here we created a dictionary that's a list of variables for each species: sample rate, overlap and windows percentage.
   species_settings <- list(Studd_Squirrel = list(sample_rate = 1, overlap_percent = 20, window_length = 10),
