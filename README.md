@@ -9,20 +9,22 @@ Created by Ryley Delaney February 2025
 - [Setup](#setup) 
 - [Usage](#usage)
 - [Reading the Report](#reading-the-report)
+- [References](#references)
 
 
 
 ## What the Repository is for
 This Repository contains scripts that allows the user to create a HTML document from accelerometer data that displays various information to help with feauture generation. The document contains some preliminary information about the dataset used and a series of plots and tables. It was created as a part of a volunteering project during my undergrad with a PhD student at the University of the Sunshine Coast.
 <br>
-An example report can be viewed <a href="Assets/Report_Example.html">here</a>
+<p>An example report using Squirrel data from Studd(2019) can be viewed <a href="Assets/Report_Example.html">here</a></p>
+<p> The example report is in HTML format and will need to be downloaded to be viewed properly if attempting to view from GitHub.</p>
 
 <br>
 
 ## Scripts
 <br>
 <h4> AccelerometerAnalysis_Main.R </h4>
-The main script of the repository, loads all packages, sources all functions as well as the GenerateBehaviourReport.Rmd. Part of the script involves receiving inputs from the user on including outliers in the Behaviour Duration box plot.
+The main script of the repository, loads all packages, sources all functions as well as the GenerateBehaviourReport.Rmd. Part of the script involves seamlessly guiding inputs from the user on including outliers in the Behaviour Duration box plot.
 <br><br>
 <h4> Functions.R </h4>
 Contains all the functions that are necessary for AccelerometerAnalysis_Main.R to run.
@@ -123,3 +125,6 @@ Below is another example:
 <p>At this point you are ready to source AccelerometerAnalysis_Main.R.</p>
 <p>The program will search to see if a report already exists and prompt you whether or not to overwrite it. Afterwards it will prompt the user if they would like to include outliers within the plot. This was because in some data sets, including outliers made some values very difficult to read in the behaviour duration plot.
 <br><br><br>
+
+## References
+Studd, E. K. <i>et al.</i> Behavioral classification of low-frequency acceleration and temperature data from a free-ranging small mammal. <i>Ecology and Evolution</i> 9, 619–630 (2019).

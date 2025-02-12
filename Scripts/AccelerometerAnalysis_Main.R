@@ -11,7 +11,7 @@ p_load(data.table, tidyverse, kableExtra)
 # Hardcoded variables -----------------------------------------------------
 
 # Input the dataset name from the list of dictionaries in Species Settings
-dataset_name <- "Annett_Possum"
+dataset_name <- "Ladds_Seal"
 # Initialise the folder structure later for when creating directories.
 folder_structure <- c("Data/Data", "Data/Test_Data", "Data/Training_Data", "Outputs")
 

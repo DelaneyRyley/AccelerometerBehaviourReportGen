@@ -53,7 +53,7 @@ One of the more important and overlooked steps of processing data is visualising
 
 ```{r Create Trace Figure Data, fig.height=8, fig.width = 14, dpi = 100, out.width="100%", out.height="100%", echo = FALSE}
   # Plot an example of trace signalling.
-  printer <- plotTraceExamples(behaviours = unique(training_data$Activity),data = training_data, n_samples = 200, individuals = 2)
+  printer <- plotTraceExamples(behaviours = unique(training_data$Activity),data = training_data, n_samples = 200, individuals = 6)
   print(printer)
 ```
 
