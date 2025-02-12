@@ -14,7 +14,7 @@ Created by Ryley Delaney February 2025
 
 
 
-## What the Repository is for
+## Overview
 <p>This Repository contains scripts that allows the user to create a HTML document from accelerometer data that displays various information to help with feauture generation. The document contains some preliminary information about the dataset used and a series of plots and tables. It was created as a part of a volunteering project during my undergrad with PhD candidate Oakley Wilson at the University of the Sunshine Coast. </p>
 
 You can view Oakleigh's Github and her work on machine learning and accelerometry <a href="https://github.com/OakAlice"> here </a> </p>
