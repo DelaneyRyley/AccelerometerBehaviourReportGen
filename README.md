@@ -32,5 +32,13 @@ This Repository contains scripts that allows the user to create a HTML document 
 ## Setup
 The Accelerometer Analysis Report generator requires a brief setup of directory structure. All Scripts should be placed in the working directory inside a folder called Scripts.
 <br>
-For Example: C:\Users\user\Desktop\AccelerometerData\Accelerometer
+For Example: C:\Users\user\Desktop\AccelerometerData\Scripts.
+<br>
+When first running the main script it will create a series of directories necessary for the program to work. <br>
+One of these folders will be YourWorkingDirectory\AccelerometerData\Data\Data <br>
+Afterwards the program will prompt for you to place your data into this folder before continuing.
+
+#### Your_Data.csv
+The main script will require the data placed in the 'Data/Data' folder to be formatted in a certain way. An example is given below.
+![Example Data](Assets/Example_Data.png)
 ## Usage
