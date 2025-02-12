@@ -11,7 +11,7 @@ p_load(data.table, tidyverse, kableExtra)
 # Hardcoded variables -----------------------------------------------------
 
 # Input the dataset name from the list of dictionaries in Species Settings
-dataset_name <- "Studd_Squirrel"
+dataset_name <- "Annett_Possum"
 # Initialise the folder structure later for when creating directories.
 folder_structure <- c("Data/Data", "Data/Test_Data", "Data/Training_Data", "Outputs")
 
@@ -27,8 +27,15 @@ source(file.path("Scripts/Theme_BehaveWhiskers.R"))
 
   # Here we created a dictionary that's a list of variables for each species: sample rate, overlap and windows percentage.
   # This allows you to easy switch between datasets when using multiple from the same folder.
-  species_settings <- list(Studd_Squirrel = list(sample_rate = 1, overlap_percent = 20, window_length = 10),
-                           Seal = list(sample_rate = 100, overlap_percent = 20, window_length = 10))
+  species_settings <- list(Studd_Squirrel = list(sample_rate = 1,
+                                                 overlap_percent = 20,
+                                                 window_length = 10),
+                           Ladds_Seal = list(sample_rate = 25,
+                                             overlap_percent = 10,
+                                             window_length = 10),
+                           Annett_Possum = list(sample_rate = 50,
+                                                overlap_percent = 20,
+                                                window_length = 10))
   
   # Here we are going to set the sample rate based on the name from the dictionary and pull the values of that.
   sample_rate <- species_settings[[dataset_name]]$sample_rate

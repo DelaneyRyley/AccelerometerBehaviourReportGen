@@ -282,7 +282,7 @@ plot_behaviour <- function(behaviour, n_samples, data) {
       # Save the test data to the test_data folder
       fwrite(test_data, file.path(base_path, "Data", "Test_Data", paste0(dataset_name, "_Test.csv")))
       # Save the training/ validation data to the training_data folder
-      fwrite(training_data, file.path(base_path, "Data", "Other_Data", paste0(dataset_name, "_Training.csv")))
+      fwrite(training_data, file.path(base_path, "Data", "Training_Data", paste0(dataset_name, "_Training.csv")))
     }
     
   }

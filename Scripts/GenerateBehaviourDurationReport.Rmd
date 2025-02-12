@@ -33,7 +33,7 @@ knitr::opts_chunk$set(
 ```{r Load in Data, include = TRUE}
 
 # Attempt to load in the training data
-training_data <<- loadTrainingData()
+training_data <- loadTrainingData()
 
 ```
 
