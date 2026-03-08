@@ -24,7 +24,7 @@ You can view Oakleigh's Github and her work on machine learning and accelerometr
 <br>
 
 ## Task Description
-<p>Below is a brief summary of the task outlined to me by</p>
+<p>Below is a brief summary of the task outlined to me by my supervisor:</p>
 <p> Animal-borne accelerometers collect high-frequency changes in acceleration, capturing patterns that can be linked to specific fine-scale behaviours. These patterns are used to train machine learning models that can identify what an animal is doing based on its movement. However, training these models requires converting the raw accelerometer data into machine-interpretable statistical 'features.' One key step in generating these features is determining the duration of behaviours that appear in the data.
 Using the provided code as a base, please develop an automated reporting system that can take accelerometer data and sample rate as inputs and generate a html report to A) visualise the existing data, and B ) suggest the optimal window length for feature generation. This system should require minimal user input and include clear explanations of how to interpret graphs and tables, as well as a description and reasoning for the ultimate recommendation.</p>
 
